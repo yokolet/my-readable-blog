@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { fetchCategories } from '../utils/api'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      backend: 'backend-data'
+      categories: null,
     }
   }
 
   componentDidMount() {
-    const url = `${process.env.REACT_APP_BACKEND}/categories`;
-    console.log('fetching from url', url);
-    fetch(url, { headers: { 'Authorization': 'whatever-you-want' }} )
-      .then( (res) => { return(res.text()) })
-      .then((data) => {
-        this.setState({backend:data});
-      });
+    fetchCategories()
+      .then((categories) => {
+        this.setState(() => ({
+          categories
+      }))
+    })
   }
 
   render() {
@@ -30,10 +30,16 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <p>
+        <div>
           Talking to the backend yields these categories: <br/>
-          {this.state.backend}
-        </p>
+          <ul>
+            {this.state.categories && this.state.categories.map((data) => (
+              <li key={data.name}>
+                {data.name}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
   }
