@@ -14,3 +14,8 @@ export const fetchCategories = () =>
     `${APP_BACKEND}/categories`, { headers })
     .then((res) => res.json())
     .then((data) => data.categories)
+
+export const fetchPosts = () =>
+    fetch(
+      `${APP_BACKEND}/posts`, { headers })
+      .then((res) => res.json())

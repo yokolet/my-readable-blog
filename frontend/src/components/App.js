@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { fetchCategories } from '../utils/api'
+import * as API from '../utils/api'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: null,
+      posts: null,
     }
   }
 
   componentDidMount() {
-    fetchCategories()
+    API.fetchCategories()
       .then((categories) => {
         this.setState(() => ({
           categories
       }))
     })
+    API.fetchPosts()
+      .then((posts) => {
+        this.setState(() => ({
+          posts
+        }))
+      })
   }
 
   render() {
@@ -39,6 +46,22 @@ class App extends Component {
               </li>
             ))}
           </ul>
+          <div>
+            POSTS:<br/>
+            <ul>
+              {this.state.posts && this.state.posts.map((data) => (
+                <li key={data.id}>
+                  id: {data.id}<br/>
+                  title: {data.title}<br/>
+                  body: {data.body}<br/>
+                  author: {data.author}<br/>
+                  category: {data.category}<br/>
+                  timestamp: {data.timestamp}<br/>
+                  votes: {data.voteScore}<br/>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     );
