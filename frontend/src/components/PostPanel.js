@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel, Button, ButtonToolbar, Grid, Row, Col  } from 'react-bootstrap'
+import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
 import * as API from '../utils/api'
 
@@ -58,21 +58,27 @@ class PostPanel extends Component {
         </div>
         <div className="post-category">
           <Button bsSize="small" bsStyle="info">{post.category}</Button>
-          <i className="fa fa-thumbs-up post-voted" aria-hidden="true"></i>
-          <span className="post-voted">{post.voteScore}</span>
         </div>
-        <ButtonToolbar>
-          <Button bsStyle="default">
-            <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
-          </Button>
-          <Button bsStyle="default">
-            <i className="fa fa-thumbs-o-down" aria-hidden="true"></i>
-          </Button>
-          <Button bsStyle="default">
-            <i className="fa fa-comment-o" aria-hidden="true"></i>
-            <span className="post-comment">{comments ? comments.length : 0}</span>
-          </Button>
-        </ButtonToolbar>
+        <Grid>
+          <Row className="show-grid">
+            <Col xs={9} md={10} lg={11}>
+              <i className="fa fa-thumbs-up post-voted" aria-hidden="true"></i>
+              <span className="post-voted">{post.voteScore}</span>
+              <Button bsStyle="default" className="post-up-down-vote">
+                <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
+              </Button>
+              <Button bsStyle="default">
+                <i className="fa fa-thumbs-o-down" aria-hidden="true"></i>
+              </Button>
+            </Col>
+            <Col xs={3} md={2} lg={1}>
+              <Button bsStyle="default">
+                <i className="fa fa-comment-o" aria-hidden="true"></i>
+                <span className="post-comment">{comments ? comments.length : 0}</span>
+              </Button>
+            </Col>
+          </Row>
+        </Grid>
       </Panel>
     )
   }
