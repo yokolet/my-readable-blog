@@ -1,9 +1,28 @@
 import React, { Component } from 'react'
 import { Panel, Button, ButtonToolbar, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
+import * as API from '../utils/api'
 
 class PostPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      comments: null,
+    }
+  }
+
+  componentDidMount() {
+    API.fetchComments(this.props.post.id)
+      .then((comments) => {
+        console.log(comments)
+        this.setState(() => ({
+          comments
+      }))
+    })
+  }
+
   render() {
+    const { comments } = this.state
     const { post } = this.props
     const titleWithAuthor = (
       <div className="post-title">
@@ -51,7 +70,7 @@ class PostPanel extends Component {
           </Button>
           <Button bsStyle="default">
             <i className="fa fa-comment-o" aria-hidden="true"></i>
-            <span className="post-comment">{post.voteScore}</span>
+            <span className="post-comment">{comments ? comments.length : 0}</span>
           </Button>
         </ButtonToolbar>
       </Panel>

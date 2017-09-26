@@ -19,3 +19,8 @@ export const fetchPosts = () =>
     fetch(
       `${APP_BACKEND}/posts`, { headers })
       .then((res) => res.json())
+
+export const fetchComments = (postId) =>
+  fetch(
+    `${APP_BACKEND}/posts/${postId}/comments`, { headers })
+    .then((res) => res.json())
