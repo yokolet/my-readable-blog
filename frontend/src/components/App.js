@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Jumbotron } from 'react-bootstrap';
 import BasicNavbar from './BasicNavbar';
+import PostPanel from './PostPanel';
 import * as API from '../utils/api'
 
 class App extends Component {
@@ -31,38 +33,22 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <BasicNavbar />
+        <BasicNavbar categories={this.state.categories}/>
         <div className="App-header">
           <div>Welcome to Readable Blog</div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
         <div>
-          Talking to the backend yields these categories: <br/>
-          <ul>
-            {this.state.categories && this.state.categories.map((data) => (
-              <li key={data.name}>
-                {data.name}
-              </li>
+          <Jumbotron className="main">
+            {this.state.posts && this.state.posts.map((data) => (
+              <PostPanel post={data} key={data.id}/>
             ))}
-          </ul>
-          <div>
-            POSTS:<br/>
-            <ul>
-              {this.state.posts && this.state.posts.map((data) => (
-                <li key={data.id}>
-                  id: {data.id}<br/>
-                  title: {data.title}<br/>
-                  body: {data.body}<br/>
-                  author: {data.author}<br/>
-                  category: {data.category}<br/>
-                  timestamp: {data.timestamp}<br/>
-                  votes: {data.voteScore}<br/>
-                </li>
-              ))}
-            </ul>
-          </div>
+          </Jumbotron>
+        </div>
+        <div className="new-post">
+          <button className="btn btn-lg btn-info btn-circle">
+            <i className="fa fa-plus"></i>
+          </button>
         </div>
       </div>
     );

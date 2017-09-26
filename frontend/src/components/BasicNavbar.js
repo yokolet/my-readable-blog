@@ -3,8 +3,9 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 class BasicNavbar extends Component {
   render() {
+    const { categories } = this.props
     return (
-      <Navbar inverse collapseOnSelect>
+      <Navbar inverse collapseOnSelect fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
             <a href="#">Readable Blog</a>
@@ -12,20 +13,15 @@ class BasicNavbar extends Component {
           <Navbar.Toggle />
           </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
-            <NavItem eventKey={1} href="#">Link</NavItem>
-            <NavItem eventKey={2} href="#">Link</NavItem>
-            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Action</MenuItem>
-              <MenuItem eventKey={3.2}>Another action</MenuItem>
-              <MenuItem eventKey={3.3}>Something else here</MenuItem>
-              <MenuItem divider />
-              <MenuItem eventKey={3.3}>Separated link</MenuItem>
-            </NavDropdown>
-          </Nav>
           <Nav pullRight>
-            <NavItem eventKey={1} href="#">Link Right</NavItem>
-            <NavItem eventKey={2} href="#">Link Right</NavItem>
+            <NavItem eventKey={1} href="#">New Post</NavItem>
+            <NavDropdown eventKey={3} title="Category" id="basic-nav-dropdown">
+              <MenuItem eventKey={3.1} key="all">all</MenuItem>
+              <MenuItem divider />
+              {categories && categories.map((category) => (
+                <MenuItem eventKey={3.2} key={category.name}>{category.name}</MenuItem>
+              ))}
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

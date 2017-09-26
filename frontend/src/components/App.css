@@ -16,6 +16,7 @@
   height: 150px;
   padding: 20px;
   color: white;
+  margin-top: 50px;
 }
 
 .App-intro {
@@ -34,7 +35,75 @@
 
 .navbar-inverse {
   background-color: #2d2210;
-  border-color: #2d2210;
+  border-color: #2d2100;
+}
+
+.main {
+  position: relative;
+  width: 100%;
+  padding: 40px 100px 40px 100px;
+  border-radius: 10px;
+}
+
+.post-header {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.post-title {
+  color: #2d2100;
+  font-size: 15px;
+}
+
+.post-author {
+  color: #2d2100;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: bold;
+}
+
+.post-title-name {
+  color: #2d2100;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.post-body {
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+
+.post-category {
+  margin-bottom: 5px;
+}
+
+.post-voted {
+  color: #5bc0de;
+  padding-left: 5px;
+}
+
+.post-comment {
+  padding-left: 5px;
+}
+
+.new-post {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+}
+
+.new-post button {
+  display: block;
+}
+
+.btn-circle, .btn-circle-3d {
+  border-radius: 50% !important;
+}
+
+.btn-primary.btn-circle {
+  -webkit-box-shadow: 0px 0px 3px 1px #245580;
+  -moz-box-shadow:    0px 0px 3px 1px #245580;
+  box-shadow:         0px 0px 3px 1px #245580;
 }
 
 @media only screen and (max-width: 768px) {
@@ -42,5 +111,23 @@
     background-image: url('../img/home-bg-small.jpg');
     font-size: 40px;
     font-weight: 400;
+    margin-top: 50px;
+  }
+
+  .main {
+    padding: 20px;
+  }
+
+  .post-header {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .post-title {
+    font-size: 12px;
+  }
+
+  .post-title-name {
+    font-size: 18px;
   }
 }
