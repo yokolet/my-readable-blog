@@ -1,3 +1,5 @@
+import uuid from 'js-uuid'
+
 export const ADD_POST = 'ADD_POST'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
@@ -15,12 +17,11 @@ export const VisibilityFilters = {
   SHOW_SELECTED: 'SHOW_SELECTED'
 }
 
-export function addPost({id, timestamp, title,
-                          body, author, category}) {
+export function addPost({title, body, author, category}) {
   return {
     type: ADD_POST,
-    id,
-    timestamp,
+    id: uuid.v4(),
+    timestamp: Date.now(),
     title,
     body,
     author,
@@ -58,22 +59,22 @@ export function downVotePost({id}) {
   }
 }
 
-export function addComment({id, timestamp, body, author, parentId}) {
+export function addComment({body, author, parentId}) {
   return {
     type: ADD_COMMENT,
-    id,
-    timestamp,
+    id: uuid.v4(),
+    timestamp: Date.now(),
     body,
     author,
     parentId
   }
 }
 
-export function editComment({id, timestamp, body}) {
+export function editComment({id, body}) {
   return {
     type: EDIT_COMMENT,
     id,
-    timestamp,
+    timestamp: Date.now(),
     body
   }
 }
