@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Jumbotron } from 'react-bootstrap'
 import BasicNavbar from './BasicNavbar'
-import Post from './Post'
+import PostList from './PostList'
 import * as API from '../utils/api'
 
 class App extends Component {
@@ -37,13 +36,7 @@ class App extends Component {
           <div>Welcome to Readable Blog</div>
         </div>
 
-        <div>
-          <Jumbotron className="main">
-            {this.state.posts && this.state.posts.map((data) => (
-              <Post post={data} key={data.id}/>
-            ))}
-          </Jumbotron>
-        </div>
+        <PostList posts={this.state.posts} />
         <div className="new-post">
           <button className="btn btn-lg btn-info btn-circle">
             <i className="fa fa-plus"></i>
