@@ -1,11 +1,17 @@
 import { SET_VISIBILITY_FILTER, VisibilityFilters } from '../actions'
 
-const initialState = VisibilityFilters.SHOW_ALL
+const initialState = {
+  filter: VisibilityFilters.SHOW_ALL,
+  category: '',
+}
 
 export default function visibilityFilter(state = initialState, action) {
   switch (action.type) {
     case SET_VISIBILITY_FILTER:
-      return action.filter
+      return {
+        filter: action.filter,
+        category: action.category,
+      }
 
     default:
       return state

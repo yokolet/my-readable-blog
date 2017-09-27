@@ -100,9 +100,10 @@ export function downVoteComment({id}) {
   }
 }
 
-export function setVisibilityFilter({filter}) {
+export function setVisibilityFilter({filter, category}) {
   return {
     type: SET_VISIBILITY_FILTER,
-    filter
+    filter,
+    category,
   }
 }
