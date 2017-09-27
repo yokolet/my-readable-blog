@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Header from './Header'
 import PostList from './PostList'
+import AddButton from './AddButton'
 import * as API from '../utils/api'
 
 class App extends Component {
@@ -33,11 +34,7 @@ class App extends Component {
       <div className="App">
         <Header categories={this.state.categories}/>
         <PostList posts={this.state.posts} />
-        <div className="new-post">
-          <button className="btn btn-lg btn-info btn-circle">
-            <i className="fa fa-plus"></i>
-          </button>
-        </div>
+        <AddButton />
       </div>
     );
   }
