@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import './App.css';
-import { Jumbotron } from 'react-bootstrap';
-import BasicNavbar from './BasicNavbar';
-import PostPanel from './PostPanel';
+import React, { Component } from 'react'
+import './App.css'
+import { Jumbotron } from 'react-bootstrap'
+import BasicNavbar from './BasicNavbar'
+import Post from './Post'
 import * as API from '../utils/api'
 
 class App extends Component {
@@ -40,7 +40,7 @@ class App extends Component {
         <div>
           <Jumbotron className="main">
             {this.state.posts && this.state.posts.map((data) => (
-              <PostPanel post={data} key={data.id}/>
+              <Post post={data} key={data.id}/>
             ))}
           </Jumbotron>
         </div>

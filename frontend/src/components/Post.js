@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
 import * as API from '../utils/api'
 
-class PostPanel extends Component {
+class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -84,4 +85,15 @@ class PostPanel extends Component {
   }
 }
 
-export default PostPanel
+Post.propTypes = {
+    post: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      timestamp: PropTypes.number.idRequired,
+      title: PropTypes.string.isRequired,
+      body: PropTypes.string.isRequired,
+      author: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+    })
+}
+
+export default Post
