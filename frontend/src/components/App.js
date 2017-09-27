@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import BasicNavbar from './BasicNavbar'
+import Header from './Header'
 import PostList from './PostList'
 import * as API from '../utils/api'
 
@@ -31,11 +31,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <BasicNavbar categories={this.state.categories}/>
-        <div className="App-header">
-          <div>Welcome to Readable Blog</div>
-        </div>
-
+        <Header categories={this.state.categories}/>
         <PostList posts={this.state.posts} />
         <div className="new-post">
           <button className="btn btn-lg btn-info btn-circle">
