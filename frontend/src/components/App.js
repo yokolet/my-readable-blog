@@ -5,6 +5,7 @@ import './App.css'
 import Header from './Header'
 import PostList from './PostList'
 import AddButton from './AddButton'
+import NewPost from './NewPost'
 import { getAllCategories, getAllPosts } from '../actions'
 
 class App extends Component {
@@ -27,6 +28,7 @@ class App extends Component {
         <Header />
         <PostList  />
         <AddButton />
+        <NewPost />
       </div>
     );
   }
