@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Jumbotron } from 'react-bootstrap'
 import Post from './Post'
 
 class PostList extends Component {
   render() {
-    const { posts } = this.props
+    const { posts, category } = this.props
 
     return (
       <div>
         <Jumbotron className="main">
-          {posts && posts.map((data) => (
-            <Post post={data} key={data.id}/>
+          {posts && posts.filter((post) => (
+            category === "all" || post.category === category
+          ))
+          .map((post) => (
+            <Post post={post} key={post.id}/>
           ))}
         </Jumbotron>
       </div>
@@ -30,6 +34,16 @@ PostList.propTypes = {
       category: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
+  category: PropTypes.string.isRequired,
 }
 
-export default PostList
+function mapStateToProps({allPosts, visibilityCategory}) {
+  return {
+    posts: allPosts.posts,
+    category: visibilityCategory.category,
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(PostList)
