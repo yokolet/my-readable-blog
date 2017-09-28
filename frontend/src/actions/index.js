@@ -5,6 +5,7 @@ export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const SET_VISIBILITY_CATEGORY = 'SET_VISIBILITY_CATEGORY'
 export const ADD_POST = 'ADD_POST'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
@@ -15,12 +16,6 @@ export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const UPVOTE_COMMENT = 'UPVOTE_COMMENT'
 export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
-
-export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
-export const VisibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_SELECTED: 'SHOW_SELECTED'
-}
 
 function requestCategories() {
   return {
@@ -61,6 +56,13 @@ export function getAllPosts() {
     dispatch(requestPosts())
     return API.fetchPosts()
       .then(json => dispatch(receivePosts(json)))
+  }
+}
+
+export function setVisibilityCategory({category}) {
+  return {
+    type: SET_VISIBILITY_CATEGORY,
+    category,
   }
 }
 
@@ -144,13 +146,5 @@ export function downVoteComment({id}) {
   return {
     type: DOWNVOTE_COMMENT,
     id
-  }
-}
-
-export function setVisibilityFilter({filter, category}) {
-  return {
-    type: SET_VISIBILITY_FILTER,
-    filter,
-    category,
   }
 }
