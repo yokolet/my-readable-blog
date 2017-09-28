@@ -1,5 +1,8 @@
 import uuid from 'js-uuid'
+import * as API from '../utils/api'
 
+export const REQUEST_POSTS = 'REQUEST_POSTS'
+export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
@@ -15,6 +18,27 @@ export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
 export const VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
   SHOW_SELECTED: 'SHOW_SELECTED'
+}
+
+function requestPosts() {
+  return {
+    type: REQUEST_POSTS,
+  }
+}
+
+function receivePosts(json) {
+  return {
+    type: RECEIVE_POSTS,
+    posts: json
+  }
+}
+
+export function getAllPosts() {
+  return dispatch => {
+    dispatch(requestPosts())
+    return API.fetchPosts()
+      .then(json => dispatch(receivePosts(json)))
+  }
 }
 
 export function addPost({title, body, author, category}) {

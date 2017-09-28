@@ -6,7 +6,7 @@ import Header from './Header'
 import PostList from './PostList'
 import AddButton from './AddButton'
 import * as API from '../utils/api'
-import * as BlogActions from '../actions'
+import { getAllPosts } from '../actions'
 
 class App extends Component {
   constructor(props) {
@@ -24,12 +24,7 @@ class App extends Component {
           categories
       }))
     })
-    API.fetchPosts()
-      .then((posts) => {
-        this.setState(() => ({
-          posts
-        }))
-      })
+    this.props.getAllPosts()
   }
 
   render() {
@@ -37,20 +32,22 @@ class App extends Component {
     return (
       <div className="App">
         <Header categories={this.state.categories}/>
-        <PostList posts={this.state.posts} />
+        <PostList posts={this.props.posts} />
         <AddButton />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  categories: state.categories,
-  posts: state.posts,
-})
+function mapStateToProps ({allPosts}) {
+  return {
+    categories: [],
+    posts: allPosts.posts,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(BlogActions, dispatch)
+  getAllPosts: () => dispatch(getAllPosts())
 })
 
 export default connect(
