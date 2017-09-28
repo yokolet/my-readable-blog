@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './App.css'
 import Header from './Header'
 import PostList from './PostList'
 import AddButton from './AddButton'
-import * as API from '../utils/api'
-import { getAllPosts } from '../actions'
+import { getAllCategories, getAllPosts } from '../actions'
 
 class App extends Component {
   constructor(props) {
@@ -18,12 +17,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    API.fetchCategories()
-      .then((categories) => {
-        this.setState(() => ({
-          categories
-      }))
-    })
+    this.props.getAllCategories()
     this.props.getAllPosts()
   }
 
@@ -31,24 +25,34 @@ class App extends Component {
     const { categories, posts } = this.props
     return (
       <div className="App">
-        <Header categories={this.state.categories}/>
-        <PostList posts={this.props.posts} />
+        <Header categories={categories}/>
+        <PostList posts={posts} />
         <AddButton />
       </div>
     );
   }
 }
 
-function mapStateToProps ({allPosts}) {
+App.propTypes = {
+  categories: PropTypes.array.isRequired,
+  posts: PropTypes.array.isRequired,
+  getAllCategories: PropTypes.func.isRequired,
+  getAllPosts: PropTypes.func.isRequired,
+}
+
+function mapStateToProps ({allCategories, allPosts}) {
   return {
-    categories: [],
+    categories: allCategories.categories,
     posts: allPosts.posts,
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getAllPosts: () => dispatch(getAllPosts())
-})
+function mapDispatchToProps (dispatch) {
+  return {
+    getAllCategories: () => dispatch(getAllCategories()),
+    getAllPosts: () => dispatch(getAllPosts())
+  }
+}
 
 export default connect(
   mapStateToProps,

@@ -1,6 +1,8 @@
 import uuid from 'js-uuid'
 import * as API from '../utils/api'
 
+export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
+export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const ADD_POST = 'ADD_POST'
@@ -18,6 +20,27 @@ export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
 export const VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
   SHOW_SELECTED: 'SHOW_SELECTED'
+}
+
+function requestCategories() {
+  return {
+    type: REQUEST_CATEGORIES,
+  }
+}
+
+function receiveCategories(json) {
+  return {
+    type: RECEIVE_CATEGORIES,
+    categories: json
+  }
+}
+
+export function getAllCategories() {
+  return dispatch => {
+    dispatch(requestCategories())
+    return API.fetchCategories()
+      .then(json => dispatch(receiveCategories(json)))
+  }
 }
 
 function requestPosts() {
