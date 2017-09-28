@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
 import * as API from '../utils/api'
+import { setVisibilityCategory } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -24,7 +26,7 @@ class Post extends Component {
 
   render() {
     const { comments } = this.state
-    const { post } = this.props
+    const { post, setCategory } = this.props
     const titleWithAuthor = (
       <div className="post-title">
         <Grid>
@@ -58,7 +60,12 @@ class Post extends Component {
           {post.body}<br/>
         </div>
         <div className="post-category">
-          <Button bsSize="small" bsStyle="info">{post.category}</Button>
+          <Button bsSize="small"
+                  bsStyle="info"
+                  onClick={e => {
+                    e.preventDefault()
+                    setCategory(post.category)
+                  }}>{post.category}</Button>
         </div>
         <Grid>
           <Row className="show-grid">
@@ -93,7 +100,23 @@ Post.propTypes = {
       body: PropTypes.string.isRequired,
       author: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
-    })
+    }),
+    setCategory: PropTypes.func.isRequired,
 }
 
-export default Post
+function mapStateToProps({visibilityCategory}) {
+  return {
+    category: visibilityCategory.category,
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    setCategory: category => dispatch(setVisibilityCategory(category))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Post);
