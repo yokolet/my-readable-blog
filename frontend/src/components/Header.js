@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { setVisibilityCategory } from '../actions'
 
 class Header extends Component {
   render() {
-    const { categories } = this.props
+    const { categories, setCategory } = this.props
     return (
       <div>
         <Navbar inverse collapseOnSelect fixedTop>
@@ -12,15 +15,27 @@ class Header extends Component {
               <a href="#">Readable Blog</a>
             </Navbar.Brand>
             <Navbar.Toggle />
-            </Navbar.Header>
+          </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
               <NavItem eventKey={1} href="#">New Post</NavItem>
               <NavDropdown eventKey={3} title="Category" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1} key="all">all</MenuItem>
+                <MenuItem eventKey={3.1}
+                          key="all"
+                          onClick={e => {
+                            e.preventDefault()
+                            setCategory("all")
+                          }}>all</MenuItem>
                 <MenuItem divider />
                 {categories && categories.map((category) => (
-                  <MenuItem eventKey={3.2} key={category.name}>{category.name}</MenuItem>
+                  <MenuItem eventKey={3.2}
+                            key={category.name}
+                            onClick={e => {
+                              e.preventDefault()
+                              setCategory(category.name)
+                            }}>
+                    {category.name}
+                  </MenuItem>
                 ))}
               </NavDropdown>
             </Nav>
@@ -34,4 +49,26 @@ class Header extends Component {
   }
 }
 
-export default Header
+Header.propTypes = {
+  categories: PropTypes.array.isRequired,
+  category: PropTypes.string.isRequired,
+  setCategory: PropTypes.func.isRequired,
+}
+
+function mapStateToProps({allCategories, visibilityCategory}) {
+  return {
+    categories: allCategories.categories,
+    category: visibilityCategory.category,
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    setCategory: category => dispatch(setVisibilityCategory(category))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

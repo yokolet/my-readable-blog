@@ -22,10 +22,10 @@ class App extends Component {
   }
 
   render() {
-    const { categories, posts } = this.props
+    const { posts } = this.props
     return (
       <div className="App">
-        <Header categories={categories}/>
+        <Header />
         <PostList posts={posts} />
         <AddButton />
       </div>

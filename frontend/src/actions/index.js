@@ -59,7 +59,7 @@ export function getAllPosts() {
   }
 }
 
-export function setVisibilityCategory({category}) {
+export function setVisibilityCategory(category) {
   return {
     type: SET_VISIBILITY_CATEGORY,
     category,
