@@ -19,17 +19,15 @@ class Header extends Component {
           <Navbar.Collapse>
             <Nav pullRight>
               <NavItem eventKey={1} href="#">New Post</NavItem>
-              <NavDropdown eventKey={3} title="Category" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1}
-                          key="all"
+              <NavDropdown title="Category" id="basic-nav-dropdown">
+                <MenuItem key="all"
                           onClick={e => {
                             e.preventDefault()
                             setCategory("all")
                           }}>all</MenuItem>
                 <MenuItem divider />
                 {categories && categories.map((category) => (
-                  <MenuItem eventKey={3.2}
-                            key={category.name}
+                  <MenuItem key={category.name}
                             onClick={e => {
                               e.preventDefault()
                               setCategory(category.name)
