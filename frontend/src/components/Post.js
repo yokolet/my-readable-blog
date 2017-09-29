@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
 import * as API from '../utils/api'
-import { setVisibilityCategory, votePost } from '../actions'
+import { setVisibilityCategory, votePost, setVisibilityEditPostModal } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class Post extends Component {
 
   render() {
     const { comments } = this.state
-    const { post, setCategory, vote } = this.props
+    const { post, setCategory, vote, setEditModalOpen } = this.props
     const titleWithAuthor = (
       <div className="post-title">
         <Grid>
@@ -44,7 +44,11 @@ class Post extends Component {
               <div className="post-title-name">{post.title}</div>
             </Col>
             <Col xs={2} md={1}>
-              <Button bsStyle="default">
+              <Button bsStyle="default"
+                      onClick={e => {
+                        e.preventDefault()
+                        setEditModalOpen(true, post)
+                      }}>
                 <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
               </Button>
             </Col>
@@ -113,18 +117,22 @@ Post.propTypes = {
       deleted: PropTypes.bool.isRequired,
     }),
     setCategory: PropTypes.func.isRequired,
+    vote: PropTypes.func.isRequired,
+    setEditModalOpen: PropTypes.func.isRequired,
 }
 
-function mapStateToProps({visibilityCategory}) {
+function mapStateToProps({visibilityCategory, visibilityEditPostModal}) {
   return {
     category: visibilityCategory.category,
+    isEditOpen: visibilityEditPostModal.open,
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     setCategory: category => dispatch(setVisibilityCategory(category)),
-    vote: (id, option) => dispatch(votePost(id, option))
+    vote: (id, option) => dispatch(votePost(id, option)),
+    setEditModalOpen: (open, data) => dispatch(setVisibilityEditPostModal(open, data))
   }
 }
 

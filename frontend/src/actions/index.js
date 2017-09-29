@@ -8,6 +8,7 @@ export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const SET_VISIBILITY_CATEGORY = 'SET_VISIBILITY_CATEGORY'
 export const SET_VISIBILITY_NEWPOST_MODAL = 'SET_VISIBILITY_NEWPOST_MODAL'
 export const ADD_POST = 'ADD_POST'
+export const SET_VISIBILITY_EDITPOST_MODAL = 'SET_VISIBILITY_EDITPOST_MODAL'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const CHANGE_VOTE_POST = 'CHANGE_VOTE_POST'
@@ -76,7 +77,7 @@ export function setVisibilityNewPostModal(open) {
 function completeAddPost(json) {
   return {
     type: ADD_POST,
-    result: json
+    result: json,
   }
 }
 
@@ -95,12 +96,29 @@ export function addPost(post) {
   }
 }
 
-export function editPost({id, title, body}) {
+export function setVisibilityEditPostModal(open, data) {
+  let post = open ? data : {}
+  return {
+    type: SET_VISIBILITY_EDITPOST_MODAL,
+    open,
+    post,
+  }
+}
+
+function completeEditPost(json) {
   return {
     type: EDIT_POST,
-    id,
-    title,
-    body
+    result: json,
+  }
+}
+export function editPost(id, post) {
+  let params = {
+    title: post.title,
+    body: post.body,
+  }
+  return dispatch => {
+    return API.editPost(id, params)
+      .then(json => dispatch(completeEditPost(json)))
   }
 }
 

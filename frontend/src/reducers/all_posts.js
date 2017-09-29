@@ -1,6 +1,7 @@
 import { REQUEST_POSTS,
           RECEIVE_POSTS,
           ADD_POST,
+          EDIT_POST,
           CHANGE_VOTE_POST} from '../actions'
 
 const initialState = {
@@ -39,6 +40,18 @@ export default function allPosts(state = initialState, action) {
             deleted: action.result.deleted,
           }
         ]
+      }
+
+    case EDIT_POST:
+      return {
+        ...state,
+        posts: state.posts.map(post => (
+          (post.id === action.result.id)
+          ? {...post,
+              title: action.result.title,
+              body: action.result.body}
+          : post
+        ))
       }
 
     case CHANGE_VOTE_POST:

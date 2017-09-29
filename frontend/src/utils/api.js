@@ -33,6 +33,13 @@ export const createPost = (post) =>
         body: JSON.stringify(post)})
         .then(res => res.json())
 
+export const editPost = (postId, post) =>
+      fetch(`${APP_BACKEND}/posts/${postId}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(post)})
+        .then(res => res.json())
+
 export const votePost = (postId, option) =>
       fetch(`${APP_BACKEND}/posts/${postId}`, {
         method: 'POST',

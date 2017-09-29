@@ -6,6 +6,7 @@ import Header from './Header'
 import PostList from './PostList'
 import AddButton from './AddButton'
 import NewPost from './NewPost'
+import EditPost from './EditPost'
 import { getAllCategories, getAllPosts } from '../actions'
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
         <PostList  />
         <AddButton />
         <NewPost />
+        <EditPost />
       </div>
     );
   }
