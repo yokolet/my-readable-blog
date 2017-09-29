@@ -27,11 +27,13 @@ PostList.propTypes = {
   posts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      timestamp: PropTypes.number.idRequired,
+      timestamp: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       body: PropTypes.string.isRequired,
       author: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
+      voteScore: PropTypes.number.isRequired,
+      deleted: PropTypes.bool.isRequired,
     }).isRequired,
   ).isRequired,
   category: PropTypes.string.isRequired,

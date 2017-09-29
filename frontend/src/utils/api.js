@@ -6,7 +6,8 @@ if (!token)
 
 const headers = {
   'Accept': 'application/json',
-  'Authorization': token
+  'Authorization': token,
+  'Content-Type': 'application/json',
 }
 
 export const fetchCategories = () =>
@@ -21,6 +22,13 @@ export const fetchPosts = () =>
       .then((res) => res.json())
 
 export const fetchComments = (postId) =>
-  fetch(
-    `${APP_BACKEND}/posts/${postId}/comments`, { headers })
-    .then((res) => res.json())
+    fetch(
+      `${APP_BACKEND}/posts/${postId}/comments`, { headers })
+      .then((res) => res.json())
+
+export const createPost = (post) =>
+      fetch(`${APP_BACKEND}/posts`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(post)})
+        .then(res => res.json())

@@ -74,15 +74,25 @@ export function setVisibilityNewPostModal(open) {
   }
 }
 
-export function addPost({title, body, author, category}) {
+function completeAddPost(json) {
   return {
     type: ADD_POST,
+    result: json
+  }
+}
+
+export function addPost(post) {
+  let params = {
     id: uuid.v4(),
     timestamp: Date.now(),
-    title,
-    body,
-    author,
-    category
+    title: post.title,
+    body: post.body,
+    author: post.author,
+    category: post.category
+  }
+  return dispatch => {
+    return API.createPost(params)
+      .then(json => dispatch(completeAddPost(json)))
   }
 }
 
