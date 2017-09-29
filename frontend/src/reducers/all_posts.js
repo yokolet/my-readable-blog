@@ -1,6 +1,7 @@
 import { REQUEST_POSTS,
           RECEIVE_POSTS,
-          ADD_POST } from '../actions'
+          ADD_POST,
+          CHANGE_VOTE_POST} from '../actions'
 
 const initialState = {
   isFetcheing: false,
@@ -38,6 +39,16 @@ export default function allPosts(state = initialState, action) {
             deleted: action.result.deleted,
           }
         ]
+      }
+
+    case CHANGE_VOTE_POST:
+      return {
+        ...state,
+        posts: state.posts.map(post => (
+          (post.id === action.result.id)
+          ? {...post, voteScore: action.result.voteScore}
+          : post
+        ))
       }
 
     default:

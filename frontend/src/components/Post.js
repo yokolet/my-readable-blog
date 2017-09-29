@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
 import * as API from '../utils/api'
-import { setVisibilityCategory } from '../actions'
+import { setVisibilityCategory, votePost } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class Post extends Component {
 
   render() {
     const { comments } = this.state
-    const { post, setCategory } = this.props
+    const { post, setCategory, vote } = this.props
     const titleWithAuthor = (
       <div className="post-title">
         <Grid>
@@ -72,10 +72,19 @@ class Post extends Component {
             <Col xs={9} md={10} lg={11}>
               <i className="fa fa-thumbs-up post-voted" aria-hidden="true"></i>
               <span className="post-voted">{post.voteScore}</span>
-              <Button bsStyle="default" className="post-up-down-vote">
+              <Button bsStyle="default"
+                      className="post-up-down-vote"
+                      onClick={e => {
+                        e.preventDefault()
+                        vote(post.id, "upVote")
+                      }}>
                 <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
               </Button>
-              <Button bsStyle="default">
+              <Button bsStyle="default"
+                      onClick={e=> {
+                        e.preventDefault()
+                        vote(post.id, "downVote")
+                      }}>
                 <i className="fa fa-thumbs-o-down" aria-hidden="true"></i>
               </Button>
             </Col>
@@ -112,7 +121,8 @@ function mapStateToProps({visibilityCategory}) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    setCategory: category => dispatch(setVisibilityCategory(category))
+    setCategory: category => dispatch(setVisibilityCategory(category)),
+    vote: (id, option) => dispatch(votePost(id, option))
   }
 }
 
