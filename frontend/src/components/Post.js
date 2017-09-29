@@ -104,11 +104,13 @@ class Post extends Component {
 Post.propTypes = {
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      timestamp: PropTypes.number.idRequired,
+      timestamp: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       body: PropTypes.string.isRequired,
       author: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
+      voteScore: PropTypes.number.isRequired,
+      deleted: PropTypes.bool.isRequired,
     }),
     setCategory: PropTypes.func.isRequired,
 }
