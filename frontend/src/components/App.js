@@ -9,13 +9,6 @@ import NewPost from './NewPost'
 import { getAllCategories, getAllPosts } from '../actions'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: null,
-      posts: null,
-    }
-  }
 
   componentDidMount() {
     this.props.getAllCategories()
