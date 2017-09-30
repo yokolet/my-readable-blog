@@ -122,10 +122,17 @@ export function editPost(id, post) {
   }
 }
 
-export function deletePost({id}) {
+function completeDeletePost(json) {
   return {
     type: DELETE_POST,
-    id
+    result: json,
+  }
+}
+
+export function deletePost(id) {
+  return dispatch => {
+    return API.deletePost(id)
+      .then(json => dispatch(completeDeletePost(json)))
   }
 }
 

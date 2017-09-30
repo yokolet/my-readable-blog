@@ -40,6 +40,13 @@ export const editPost = (postId, post) =>
         body: JSON.stringify(post)})
         .then(res => res.json())
 
+export const deletePost = (postId) =>
+    fetch(`${APP_BACKEND}/posts/${postId}`, {
+        method: 'DELETE',
+        headers,
+       })
+      .then(res => res.json())
+
 export const votePost = (postId, option) =>
       fetch(`${APP_BACKEND}/posts/${postId}`, {
         method: 'POST',

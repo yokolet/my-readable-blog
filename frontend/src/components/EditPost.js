@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { ControlLabel, Button, FormControl,
-          FormGroup, Modal } from 'react-bootstrap'
-import { setVisibilityEditPostModal, editPost } from '../actions'
+import { Col, ControlLabel, Button, FormControl,
+          FormGroup, Grid, Modal, Row } from 'react-bootstrap'
+import { setVisibilityEditPostModal, editPost, deletePost } from '../actions'
 
 class EditPost extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class EditPost extends Component {
   }
 
   render() {
-    const { isEditOpen, setEditModalOpen, update, post } = this.props
+    const { isEditOpen, setEditModalOpen, update, deletePost, post } = this.props
     return (
       <Modal show={isEditOpen}
         onHide={() => {
@@ -66,42 +66,49 @@ class EditPost extends Component {
 
           </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button bsStyle="danger"
-            onClick={e => {
-                    e.preventDefault()
-                    setEditModalOpen(false, {})
-                    this.setState({
-                      title: {onEdit: false, value: ''},
-                      body: {onEdit: false, value: ''},
-                    })
-          }}>Delete</Button>
-          <Button onClick={e => {
-                    e.preventDefault()
-                    setEditModalOpen(false, {})
-                    this.setState({
-                      title: {onEdit: false, value: ''},
-                      body: {onEdit: false, value: ''},
-                    })
-          }}>Cancel</Button>
-          <Button
-            bsStyle="primary"
-            type="submit"
-            onClick={e => {
-              e.preventDefault()
-              let titleValue = this.state.title.onEdit ? this.state.title.value : post.title
-              let bodyValue = this.state.body.onEdit ? this.state.body.value : post.body
-              update(post.id, {title: titleValue, body: bodyValue})
-              setEditModalOpen(false, {})
-              this.setState({
-                title: {onEdit: false, value: ''},
-                body: {onEdit: false, value: ''},
-              })
-            }}
-            >
-            Update
-          </Button>
-        </Modal.Footer>
+        <Grid>
+          <Row className="edit-modal-footer">
+            <Col xs={6} md={4}>
+            <Button bsStyle="danger" className="edit-modal-button"
+              onClick={e => {
+                      e.preventDefault()
+                      deletePost(post.id)
+                      setEditModalOpen(false, {})
+                      this.setState({
+                        title: {onEdit: false, value: ''},
+                        body: {onEdit: false, value: ''},
+                      })
+            }}>Delete</Button>
+            </Col>
+            <Col xs={2} md={4}>
+            <Button className="edit-modal-button"
+              onClick={e => {
+                      e.preventDefault()
+                      setEditModalOpen(false, {})
+                      this.setState({
+                        title: {onEdit: false, value: ''},
+                        body: {onEdit: false, value: ''},
+                      })
+            }}>Cancel</Button>
+            <Button bsStyle="primary" className="edit-modal-button"
+              type="submit"
+              onClick={e => {
+                e.preventDefault()
+                let titleValue = this.state.title.onEdit ? this.state.title.value : post.title
+                let bodyValue = this.state.body.onEdit ? this.state.body.value : post.body
+                update(post.id, {title: titleValue, body: bodyValue})
+                setEditModalOpen(false, {})
+                this.setState({
+                  title: {onEdit: false, value: ''},
+                  body: {onEdit: false, value: ''},
+                })
+              }}
+              >
+              Update
+            </Button>
+            </Col>
+          </Row>
+        </Grid>
       </Modal>
     )
   }
@@ -133,7 +140,8 @@ function mapStateToProps({visibilityEditPostModal}) {
 function mapDispatchToProps (dispatch) {
   return {
     setEditModalOpen: (open, data) => dispatch(setVisibilityEditPostModal(open, data)),
-    update: (id, data) => dispatch(editPost(id, data))
+    update: (id, data) => dispatch(editPost(id, data)),
+    deletePost: id => dispatch(deletePost(id)),
   }
 }
 

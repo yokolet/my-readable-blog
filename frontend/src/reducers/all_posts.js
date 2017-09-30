@@ -2,7 +2,8 @@ import { REQUEST_POSTS,
           RECEIVE_POSTS,
           ADD_POST,
           EDIT_POST,
-          CHANGE_VOTE_POST} from '../actions'
+          CHANGE_VOTE_POST,
+          DELETE_POST } from '../actions'
 
 const initialState = {
   isFetcheing: false,
@@ -62,6 +63,17 @@ export default function allPosts(state = initialState, action) {
           ? {...post, voteScore: action.result.voteScore}
           : post
         ))
+      }
+
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.map(post => (
+          (post.id === action.result.id)
+          ? {...post, deleted: action.result.deleted}
+          : post
+        ))
+        .filter(post => !post.deleted)
       }
 
     default:

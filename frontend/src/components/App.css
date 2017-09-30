@@ -111,6 +111,15 @@
   box-shadow:         0px 0px 3px 1px #245580;
 }
 
+.edit-modal-footer {
+  padding: 10px;
+}
+
+.edit-modal-button {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
 @media only screen and (max-width: 768px) {
   .App-header {
     background-image: url('../img/home-bg-small.jpg');
