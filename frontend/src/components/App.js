@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './App.css'
+import { Route } from 'react-router-dom'
 import Header from './Header'
 import PostList from './PostList'
 import AddButton from './AddButton'
@@ -18,14 +19,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Header />
-        <PostList  />
-        <AddButton />
-        <NewPost />
-        <EditPost />
-      </div>
-    );
+      <Route exact path="/" render={() => (
+        <div className="App">
+          <Header />
+          <PostList  />
+          <AddButton />
+          <NewPost />
+          <EditPost />
+        </div>
+      )} />
+    )
   }
 }
 

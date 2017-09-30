@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { setVisibilityCategory, setVisibilityNewPostModal } from '../actions'
 
@@ -12,7 +13,7 @@ class Header extends Component {
         <Navbar inverse collapseOnSelect fixedTop>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#">Readable Blog</a>
+              <Link to='/'>Readable Blog</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
