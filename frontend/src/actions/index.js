@@ -12,6 +12,10 @@ export const SET_VISIBILITY_EDITPOST_MODAL = 'SET_VISIBILITY_EDITPOST_MODAL'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const CHANGE_VOTE_POST = 'CHANGE_VOTE_POST'
+export const REQUEST_SINGLE_POST = 'REQUEST_SINGLE_POST'
+export const RECEIVE_SINGLE_POST = 'RECEIVE_SINGLE_POST'
+export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
+export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
@@ -147,6 +151,48 @@ export function votePost(id, option) {
   return dispatch => {
     return API.votePost(id, { option })
       .then(json => dispatch(completeVotePost(json)))
+  }
+}
+
+function requestSinglePost() {
+  return {
+    type: REQUEST_SINGLE_POST,
+  }
+}
+
+function receiveSinglePost(json) {
+  return {
+    type: RECEIVE_SINGLE_POST,
+    post: json
+  }
+}
+
+export function getSinglePost(id) {
+  return dispatch => {
+    dispatch(requestSinglePost())
+    return API.fetchSinglePost(id)
+      .then(json => dispatch(receiveSinglePost(json)))
+  }
+}
+
+function requestComments() {
+  return {
+    type: REQUEST_COMMENTS,
+  }
+}
+
+function receiveComments(json) {
+  return {
+    type: RECEIVE_COMMENTS,
+    comments: json
+  }
+}
+
+export function getAllComments(postId) {
+  return dispatch => {
+    dispatch(requestComments())
+    return API.fetchComments(postId)
+      .then(json => dispatch(receiveComments(json)))
   }
 }
 

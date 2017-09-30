@@ -5,6 +5,7 @@ import comments from './comments'
 import visibilityCategory from './visibility_category'
 import visibilityNewPostModal from './visibility_newpost_modal'
 import visibilityEditPostModal from './visibility_editpost_modal'
+import singlePost from './single_post'
 
 export default combineReducers({
   allCategories,
@@ -13,4 +14,5 @@ export default combineReducers({
   visibilityNewPostModal,
   visibilityEditPostModal,
   comments,
+  singlePost,
 })

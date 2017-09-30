@@ -17,8 +17,11 @@ export const fetchCategories = () =>
     .then((data) => data.categories)
 
 export const fetchPosts = () =>
-    fetch(
-      `${APP_BACKEND}/posts`, { headers })
+    fetch(`${APP_BACKEND}/posts`, { headers })
+      .then((res) => res.json())
+
+export const fetchSinglePost = (postId) =>
+    fetch(`${APP_BACKEND}/posts/${postId}`, { headers })
       .then((res) => res.json())
 
 export const fetchComments = (postId) =>
