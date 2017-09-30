@@ -2,9 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Jumbotron } from 'react-bootstrap'
-import Post from './Post'
+import PostListEntry from './PostListEntry'
+import { getAllPosts } from '../actions'
 
 class PostList extends Component {
+
+  componentDidMount() {
+    this.props.getAllPosts()
+  }
+
   render() {
     const { posts, category } = this.props
 
@@ -15,7 +21,7 @@ class PostList extends Component {
             category === "all" || post.category === category
           ))
           .map((post) => (
-            <Post post={post} key={post.id}/>
+            <PostListEntry post={post} key={post.id}/>
           ))}
         </Jumbotron>
       </div>
@@ -36,6 +42,7 @@ PostList.propTypes = {
       deleted: PropTypes.bool.isRequired,
     }).isRequired,
   ).isRequired,
+  getAllPosts: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
 }
 
@@ -46,6 +53,13 @@ function mapStateToProps({allPosts, visibilityCategory}) {
   }
 }
 
+function mapDispatchToProps (dispatch) {
+  return {
+    getAllPosts: () => dispatch(getAllPosts())
+  }
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(PostList)

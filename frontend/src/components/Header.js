@@ -3,9 +3,14 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { setVisibilityCategory, setVisibilityNewPostModal } from '../actions'
+import { getAllCategories, setVisibilityCategory, setVisibilityNewPostModal } from '../actions'
 
 class Header extends Component {
+
+  componentDidMount() {
+    this.props.getAllCategories()
+  }
+
   render() {
     const { categories, setCategory, setModalOpen } = this.props
     return (
@@ -55,6 +60,7 @@ Header.propTypes = {
   categories: PropTypes.array.isRequired,
   category: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  getAllCategories: PropTypes.func.isRequired,
   setCategory: PropTypes.func.isRequired,
   setModalOpen: PropTypes.func.isRequired,
 }
@@ -69,6 +75,7 @@ function mapStateToProps({allCategories, visibilityCategory, visibilityNewPostMo
 
 function mapDispatchToProps (dispatch) {
   return {
+    getAllCategories: () => dispatch(getAllCategories()),
     setCategory: category => dispatch(setVisibilityCategory(category)),
     setModalOpen: open => dispatch(setVisibilityNewPostModal(open))
   }
