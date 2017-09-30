@@ -9,8 +9,8 @@ class EditPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: null,
-      body: null,
+      title: {onEdit: false, value: ''},
+      body: {onEdit: false, value: ''},
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -19,19 +19,29 @@ class EditPost extends Component {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-
     this.setState({
-      [name]: value
+      [name]: { value, onEdit: true}
     })
   }
 
   render() {
-    const { isEditOpen, setEditModalOpen, editPost, post} = this.props
-
+    const { isEditOpen, setEditModalOpen, editPost, post } = this.props
     return (
-      <Modal show={isEditOpen} onHide={() => (setEditModalOpen(false))}>
+      <Modal show={isEditOpen}
+        onHide={() => {
+          setEditModalOpen(false, {})
+          this.setState({
+            title: {onEdit: false, value: ''},
+            body: {onEdit: false, value: ''},
+          })
+        }}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Post</Modal.Title>
+          <div>
+            Posted by
+            <span className="post-author">{post.author}</span>
+            <Button bsStyle="info" bsSize="sm" disabled>{post.category}</Button>
+          </div>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -40,7 +50,7 @@ class EditPost extends Component {
               <FormControl
                 componentClass="input"
                 name="title"
-                value={post.title}
+                value={this.state.title.onEdit ? this.state.title.value : post.title}
                 onChange={this.handleChange}
               />
             </FormGroup>
@@ -49,43 +59,42 @@ class EditPost extends Component {
               <FormControl
                 componentClass="textarea"
                 name="body"
-                value={post.body}
+                value={this.state.body.onEdit ? this.state.body.value : post.body}
                 onChange={this.handleChange}
               />
             </FormGroup>
-            <FormGroup controlId="editPostAuthor">
-              <ControlLabel>Author</ControlLabel>
-              <FormControl
-                componentClass="text"
-                value={post.author}
-              />
-            </FormGroup>
-            <FormGroup controlId="editPostCategory">
-              <ControlLabel>Category</ControlLabel>
-              <FormControl
-                componentClass="text"
-                value={post.category}
-              />
-            </FormGroup>
+
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button bsStyle="danger"
             onClick={e => {
                     e.preventDefault()
-                    setEditModalOpen(false)
+                    setEditModalOpen(false, {})
+                    this.setState({
+                      title: {onEdit: false, value: ''},
+                      body: {onEdit: false, value: ''},
+                    })
           }}>Delete</Button>
           <Button onClick={e => {
                     e.preventDefault()
-                    setEditModalOpen(false)
+                    setEditModalOpen(false, {})
+                    this.setState({
+                      title: {onEdit: false, value: ''},
+                      body: {onEdit: false, value: ''},
+                    })
           }}>Cancel</Button>
           <Button
             bsStyle="primary"
             type="submit"
             onClick={e => {
               e.preventDefault()
-              setEditModalOpen(false)
+              setEditModalOpen(false, {})
               editPost(this.state)
+              this.setState({
+                title: {onEdit: false, value: ''},
+                body: {onEdit: false, value: ''},
+              })
             }}
             >
             Update
