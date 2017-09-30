@@ -25,7 +25,7 @@ class EditPost extends Component {
   }
 
   render() {
-    const { isEditOpen, setEditModalOpen, editPost, post } = this.props
+    const { isEditOpen, setEditModalOpen, update, post } = this.props
     return (
       <Modal show={isEditOpen}
         onHide={() => {
@@ -89,8 +89,10 @@ class EditPost extends Component {
             type="submit"
             onClick={e => {
               e.preventDefault()
+              let titleValue = this.state.title.onEdit ? this.state.title.value : post.title
+              let bodyValue = this.state.body.onEdit ? this.state.body.value : post.body
+              update(post.id, {title: titleValue, body: bodyValue})
               setEditModalOpen(false, {})
-              editPost(this.state)
               this.setState({
                 title: {onEdit: false, value: ''},
                 body: {onEdit: false, value: ''},
@@ -118,7 +120,7 @@ EditPost.propTypes = {
     deleted: PropTypes.bool,
   }),
   setEditModalOpen: PropTypes.func.isRequired,
-  editPost: PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({visibilityEditPostModal}) {
@@ -131,7 +133,7 @@ function mapStateToProps({visibilityEditPostModal}) {
 function mapDispatchToProps (dispatch) {
   return {
     setEditModalOpen: (open, data) => dispatch(setVisibilityEditPostModal(open, data)),
-    editPost: post => dispatch(editPost(post))
+    update: (id, data) => dispatch(editPost(id, data))
   }
 }
 
