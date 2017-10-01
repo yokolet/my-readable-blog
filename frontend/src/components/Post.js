@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
-import { getSinglePost, getAllComments } from '../actions'
+import { getSinglePost, getAllComments, setLocation } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class Post extends Component {
   componentDidMount() {
     this.props.getSinglePost(this.state.post_id)
     this.props.getAllComments(this.state.post_id)
+    this.props.setLocation('post')
   }
 
   render() {
@@ -87,12 +88,15 @@ Post.propTypes = {
     comments: PropTypes.array,
     getSinglePost: PropTypes.func.isRequired,
     getAllComments: PropTypes.func.isRequired,
+    location: PropTypes.string.isRequired,
+    setLocation: PropTypes.func.isRequired,
 }
 
-function mapStateToProps({ singlePost }) {
+function mapStateToProps({ singlePost, currentLocation }) {
   return {
     post: singlePost.post,
     comments: singlePost.comments,
+    location: currentLocation.location,
   }
 }
 
@@ -100,6 +104,7 @@ function mapDispatchToProps (dispatch) {
   return {
     getSinglePost: id => dispatch(getSinglePost(id)),
     getAllComments: id => dispatch(getAllComments(id)),
+    setLocation: location => dispatch(setLocation(location)),
   }
 }
 

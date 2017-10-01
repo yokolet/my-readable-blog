@@ -12,7 +12,7 @@ class Header extends Component {
   }
 
   render() {
-    const { categories, setCategory, setModalOpen } = this.props
+    const { categories, setCategory, setModalOpen, location } = this.props
     return (
       <div>
         <Navbar inverse collapseOnSelect fixedTop>
@@ -20,33 +20,37 @@ class Header extends Component {
             <Navbar.Brand>
               <Link to='/'>Readable Blog</Link>
             </Navbar.Brand>
-            <Navbar.Toggle />
+            { location === 'home' &&
+              <Navbar.Toggle />
+            }
           </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav pullRight>
-              <NavItem onClick={e => {
-                        e.preventDefault()
-                        setModalOpen(true)
-                      }}>New Post</NavItem>
-              <NavDropdown title="Category" id="basic-nav-dropdown">
-                <MenuItem key="all"
-                          onClick={e => {
-                            e.preventDefault()
-                            setCategory("all")
-                          }}>all</MenuItem>
-                <MenuItem divider />
-                {categories && categories.map((category) => (
-                  <MenuItem key={category.name}
+          { location === 'home' &&
+            <Navbar.Collapse>
+              <Nav pullRight>
+                <NavItem onClick={e => {
+                          e.preventDefault()
+                          setModalOpen(true)
+                        }}>New Post</NavItem>
+                <NavDropdown title="Category" id="basic-nav-dropdown">
+                  <MenuItem key="all"
                             onClick={e => {
                               e.preventDefault()
-                              setCategory(category.name)
-                            }}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
+                              setCategory("all")
+                            }}>all</MenuItem>
+                  <MenuItem divider />
+                  {categories && categories.map((category) => (
+                    <MenuItem key={category.name}
+                              onClick={e => {
+                                e.preventDefault()
+                                setCategory(category.name)
+                              }}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </NavDropdown>
+              </Nav>
+            </Navbar.Collapse>
+          }
         </Navbar>
         <div className="App-header">
           <div>Welcome to Readable Blog</div>
@@ -60,16 +64,22 @@ Header.propTypes = {
   categories: PropTypes.array.isRequired,
   category: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  location: PropTypes.string.isRequired,
   getAllCategories: PropTypes.func.isRequired,
   setCategory: PropTypes.func.isRequired,
   setModalOpen: PropTypes.func.isRequired,
 }
 
-function mapStateToProps({allCategories, visibilityCategory, visibilityNewPostModal}) {
+function mapStateToProps({
+  allCategories,
+  visibilityCategory,
+  visibilityNewPostModal,
+  currentLocation}) {
   return {
     categories: allCategories.categories,
     category: visibilityCategory.category,
     isOpen: visibilityNewPostModal.open,
+    location: currentLocation.location,
   }
 }
 

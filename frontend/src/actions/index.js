@@ -16,6 +16,7 @@ export const REQUEST_SINGLE_POST = 'REQUEST_SINGLE_POST'
 export const RECEIVE_SINGLE_POST = 'RECEIVE_SINGLE_POST'
 export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const SET_LOCATION= 'SET_LOCATION'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
@@ -151,6 +152,13 @@ export function votePost(id, option) {
   return dispatch => {
     return API.votePost(id, { option })
       .then(json => dispatch(completeVotePost(json)))
+  }
+}
+
+export function setLocation(location) {
+  return {
+    type: SET_LOCATION,
+    location,
   }
 }
 
