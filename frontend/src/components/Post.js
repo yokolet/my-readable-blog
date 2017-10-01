@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { ControlLabel, FormControl, FormGroup, Jumbotron, Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
+import { ControlLabel, FormControl, FormGroup,
+          Jumbotron, Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
+import FaThumbsUp from 'react-icons/lib/fa/thumbs-up'
 import { millisToDate } from '../utils/helpers'
 import { getSinglePost, getAllComments, setLocation } from '../actions'
 
@@ -57,7 +59,7 @@ class Post extends Component {
                     disabled>
               {post.category}
             </Button>
-            <i className="fa fa-thumbs-up post-voted" aria-hidden="true"></i>
+            <FaThumbsUp size={20} className="post-voted" />
             <span className="post-voted">{post.voteScore}</span>
           </div>
           <div className="comments">
