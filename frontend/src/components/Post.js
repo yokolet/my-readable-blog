@@ -6,7 +6,7 @@ import { ControlLabel, FormControl, FormGroup,
 import { FaThumbsUp } from 'react-icons/lib/fa'
 import postTitle from './PostTitle'
 import commentTitle from './CommentTitle'
-import { getSinglePost, getAllComments, setLocation } from '../actions'
+import { getSinglePost, getAllComments, setLocation, addComment } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -15,13 +15,29 @@ class Post extends Component {
       post_id: props.match.params.id,
       post: null,
       comments: null,
+      comment: {
+        author: null,
+        body: null,
+        parentId: null,
+      }
     }
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
     this.props.getSinglePost(this.state.post_id)
     this.props.getAllComments(this.state.post_id)
     this.props.setLocation('post')
+  }
+
+  handleChange (event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    })
   }
 
   render() {
@@ -67,6 +83,7 @@ class Post extends Component {
                       componentClass="input"
                       placeholder="Enter name"
                       name="author"
+                      onChange={this.handleChange}
                     />
                   </FormGroup>
                   <FormGroup controlId="newCommentBody">
@@ -75,6 +92,7 @@ class Post extends Component {
                       componentClass="textarea"
                       placeholder="Enter comment"
                       name="body"
+                      onChange={this.handleChange}
                     />
                 </FormGroup>
                 </form>
@@ -83,6 +101,10 @@ class Post extends Component {
                   <Button className="comment-button"
                     bsStyle="primary"
                     type="submit"
+                    onClick={e => {
+                      e.preventDefault()
+                      addComment(this.state.comment)
+                    }}
                     >
                     Create
                   </Button>
@@ -112,6 +134,7 @@ Post.propTypes = {
     getAllComments: PropTypes.func.isRequired,
     location: PropTypes.string.isRequired,
     setLocation: PropTypes.func.isRequired,
+    addComment: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({ singlePost, currentLocation }) {
@@ -127,6 +150,7 @@ function mapDispatchToProps (dispatch) {
     getSinglePost: id => dispatch(getSinglePost(id)),
     getAllComments: id => dispatch(getAllComments(id)),
     setLocation: location => dispatch(setLocation(location)),
+    addComment: (comment, parentId) => dispatch(addComment(comment.title, comment.body, parentId)),
   }
 }
 

@@ -1,7 +1,8 @@
 import { REQUEST_SINGLE_POST,
         RECEIVE_SINGLE_POST,
         REQUEST_COMMENTS,
-        RECEIVE_COMMENTS } from '../actions'
+        RECEIVE_COMMENTS,
+        ADD_COMMENT } from '../actions'
 
 const initialState = {
   isFetching: false,
@@ -36,6 +37,25 @@ export default function singlePost(state = initialState, action) {
         ...state,
         isCommentsFetching: false,
         comments: action.comments
+      }
+
+    case ADD_COMMENT:
+      return {
+        ...state,
+        comments: [
+          ...state.comments,
+          {
+            id: action.result.id,
+            parentId: action.result.parentId,
+            timestamp: action.result.timestamp,
+            body: action.result.body,
+            author: action.result.author,
+            category: action.result.category,
+            voteScore: action.result.voteScore,
+            deleted: action.result.deleted,
+            parentDeleted: action.result.parentDeleted,
+          }
+        ]
       }
 
     default:

@@ -204,14 +204,24 @@ export function getAllComments(postId) {
   }
 }
 
-export function addComment({body, author, parentId}) {
+function completeAddComment(json) {
   return {
     type: ADD_COMMENT,
+    result: json,
+  }
+}
+
+export function addComment(body, author, parentId) {
+  let params = {
     id: uuid.v4(),
     timestamp: Date.now(),
     body,
     author,
     parentId
+  }
+  return dispatch => {
+    return API.createComment(params)
+      .then(json => dispatch(completeAddComment(json)))
   }
 }
 
