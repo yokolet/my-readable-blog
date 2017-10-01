@@ -52,9 +52,16 @@ class Header extends Component {
             </Navbar.Collapse>
           }
         </Navbar>
-        <div className="App-header">
-          <div>Welcome to Readable Blog</div>
-        </div>
+        { location === 'home' &&
+          <div className="App-header">
+            <div>Welcome to Readable Blog</div>
+          </div>
+        }
+        { location !== 'home' &&
+          <div className="single-post-header">
+            <div>Readable Blog</div>
+          </div>
+        }
       </div>
     )
   }

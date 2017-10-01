@@ -120,6 +120,19 @@
   margin-bottom: 10px;
 }
 
+.single-post-header {
+  background-image: url('../img/single-post-bg.jpg');
+  background-color: #eee;
+  font-size: 60px;
+  font-weight: 800;
+  text-align: center;
+  height: 150px;
+  padding: 20px;
+  color: white;
+  margin-top: 50px;
+}
+
+
 @media only screen and (max-width: 768px) {
   .App-header {
     background-image: url('../img/home-bg-small.jpg');
@@ -143,5 +156,12 @@
 
   .post-title-name {
     font-size: 18px;
+  }
+
+  .single-post-header {
+    background-image: url('../img/single-post-bg-small.jpg');
+    font-size: 40px;
+    font-weight: 400;
+    margin-top: 50px;
   }
 }
