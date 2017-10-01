@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button  } from 'react-bootstrap'
+import FaPlus from 'react-icons/lib/fa/plus'
 import { setVisibilityNewPostModal } from '../actions'
 
 class AddButton extends Component {
@@ -14,7 +15,7 @@ class AddButton extends Component {
                   e.preventDefault()
                   setModalOpen(true)
                 }}>
-          <i className="fa fa-plus"></i>
+          <FaPlus />
         </Button>
       </div>
     )

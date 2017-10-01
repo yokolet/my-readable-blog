@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
+import * as FA from 'react-icons/lib/fa'
 import { millisToDate } from '../utils/helpers'
 import * as API from '../utils/api'
 import { setVisibilityCategory, votePost, setVisibilityEditPostModal } from '../actions'
@@ -50,7 +51,7 @@ class PostListEntry extends Component {
                         e.preventDefault()
                         setEditModalOpen(true, post)
                       }}>
-                <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <FA.FaPencil size={20} />
               </Button>
             </Col>
           </Row>
@@ -75,7 +76,7 @@ class PostListEntry extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={9} md={10} lg={11}>
-              <i className="fa fa-thumbs-up post-voted" aria-hidden="true"></i>
+              <FA.FaThumbsUp size={24} className="post-voted" />
               <span className="post-voted">{post.voteScore}</span>
               <Button bsStyle="default"
                       className="post-up-down-vote"
@@ -83,20 +84,20 @@ class PostListEntry extends Component {
                         e.preventDefault()
                         vote(post.id, "upVote")
                       }}>
-                <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                <FA.FaThumbsOUp />
               </Button>
               <Button bsStyle="default"
                       onClick={e=> {
                         e.preventDefault()
                         vote(post.id, "downVote")
                       }}>
-                <i className="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                <FA.FaThumbsODown />
               </Button>
             </Col>
             <Col xs={3} md={2} lg={1}>
               <Link to={`/posts/${post.id}`}>
                 <Button bsStyle="default">
-                  <i className="fa fa-comment-o" aria-hidden="true"></i>
+                  <FA.FaCommentO size={20}/>
                   <span className="post-comment">{comments ? comments.length : 0}</span>
                 </Button>
               </Link>
