@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
+import { ControlLabel, FormControl, FormGroup, Jumbotron, Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import { millisToDate } from '../utils/helpers'
 import { getSinglePost, getAllComments, setLocation } from '../actions'
 
@@ -45,31 +45,74 @@ class Post extends Component {
     );
 
     return (
-      <Panel header={titleWithAuthor} className="post-header">
-        <div className="post-body">
-          id: {post.id}<br/>
-          {post.body}<br/>
-        </div>
-        <div className="post-category">
-          <Button bsSize="small"
-                  bsStyle="info"
-                  disabled>
-            {post.category}
-          </Button>
-        </div>
-        <div>
-          <ul>
-          {comments && comments.map((comment) => (
-            <li key={comment.id}>
-            <div>{comment.id}</div>
-            <div>{comment.body}</div>
-            <div>{comment.author}</div>
-            <div>{comment.parentId}</div>
-            </li>
-          ))}
-          </ul>
-        </div>
-      </Panel>
+      <Jumbotron className="main">
+        <Panel header={titleWithAuthor} className="post-header">
+          <div className="post-body">
+            id: {post.id}<br/>
+            {post.body}<br/>
+          </div>
+          <div className="post-category">
+            <Button bsSize="small"
+                    bsStyle="info"
+                    disabled>
+              {post.category}
+            </Button>
+            <i className="fa fa-thumbs-up post-voted" aria-hidden="true"></i>
+            <span className="post-voted">{post.voteScore}</span>
+          </div>
+          <div className="comments">
+            <div className="comments-head">
+              {comments.length} Comments
+            </div>
+            {comments && comments.map((comment) => (
+              <Panel key={comment.id}>
+                <div className="comment-info">
+                  By
+                  <span className="comment-author">{comment.author}</span>
+                  on {millisToDate(comment.timestamp)}
+                </div>
+                <div className="comment-body">
+                  {comment.body}
+                </div>
+              <div>{comment.id}</div>
+              <div>{comment.parentId}</div>
+              </Panel>
+            ))}
+            <Panel>
+              <div className="comment-form-head">
+                New Comment
+                <form>
+                  <FormGroup controlId="newCommentAuthor">
+                    <ControlLabel>Author</ControlLabel>
+                    <FormControl
+                      componentClass="input"
+                      placeholder="Enter name"
+                      name="author"
+                    />
+                  </FormGroup>
+                  <FormGroup controlId="newCommentBody">
+                    <ControlLabel>Body</ControlLabel>
+                    <FormControl
+                      componentClass="textarea"
+                      placeholder="Enter comment"
+                      name="body"
+                    />
+                </FormGroup>
+                </form>
+                <div className="comment-buttons">
+                  <Button className="comment-button">Cancel</Button>
+                  <Button className="comment-button"
+                    bsStyle="primary"
+                    type="submit"
+                    >
+                    Create
+                  </Button>
+                </div>
+              </div>
+            </Panel>
+          </div>
+        </Panel>
+      </Jumbotron>
     )
   }
 }

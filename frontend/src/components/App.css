@@ -81,6 +81,7 @@
   color: #5bc0de;
   padding-right: 5px;
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 .post-up-down-vote {
@@ -132,6 +133,38 @@
   margin-top: 50px;
 }
 
+.comments {
+  margin-top: 10px;
+}
+
+.comments-head {
+  font-weight: bold;
+}
+
+.comment-info {
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.comment-author {
+  color: #2d2100;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: bold;
+}
+
+.comment-body {
+  margin-top: 5px;
+}
+
+.comment-buttons {
+  position: relative;
+  float: right;
+}
+
+.comment-button {
+  margin-right: 10px;
+}
 
 @media only screen and (max-width: 768px) {
   .App-header {
