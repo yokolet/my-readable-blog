@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import * as FA from 'react-icons/lib/fa'
-import { millisToDate } from '../utils/helpers'
+import postTitle from './PostTitle'
 import * as API from '../utils/api'
 import { setVisibilityCategory, votePost, setVisibilityEditPostModal } from '../actions'
 
@@ -29,38 +29,9 @@ class PostListEntry extends Component {
   render() {
     const { comments } = this.state
     const { post, setCategory, vote, setEditModalOpen } = this.props
-    const titleWithAuthor = (
-      <div className="post-title">
-        <Grid>
-          <Row className="show-grid">
-            <Col xs={12} md={12}>
-              <div>
-                Posted by
-                <span className="post-author">{post.author}</span>
-                on {millisToDate(post.timestamp)}
-              </div>
-            </Col>
-          </Row>
-          <Row className="show-grid">
-            <Col xs={10} md={11}>
-              <div className="post-title-name">{post.title}</div>
-            </Col>
-            <Col xs={2} md={1}>
-              <Button bsStyle="default"
-                      onClick={e => {
-                        e.preventDefault()
-                        setEditModalOpen(true, post)
-                      }}>
-                <FA.FaPencil size={20} />
-              </Button>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
 
     return (
-      <Panel header={titleWithAuthor} className="post-header">
+      <Panel header={postTitle(post, setEditModalOpen)} className="post-header">
         <div className="post-body">
           id: {post.id}<br/>
           {post.body}<br/>

@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { ControlLabel, FormControl, FormGroup,
-          Jumbotron, Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
-import FaThumbsUp from 'react-icons/lib/fa/thumbs-up'
-import { millisToDate } from '../utils/helpers'
+          Jumbotron, Panel, Button  } from 'react-bootstrap'
+import { FaThumbsUp } from 'react-icons/lib/fa'
+import postTitle from './PostTitle'
+import commentTitle from './CommentTitle'
 import { getSinglePost, getAllComments, setLocation } from '../actions'
 
 class Post extends Component {
@@ -25,30 +26,10 @@ class Post extends Component {
 
   render() {
     const { post, comments } = this.props
-    const titleWithAuthor = (
-      <div className="post-title">
-        <Grid>
-          <Row className="show-grid">
-            <Col xs={12} md={12}>
-              <div>
-                Posted by
-                <span className="post-author">{post.author}</span>
-                on {millisToDate(post.timestamp)}
-              </div>
-            </Col>
-          </Row>
-          <Row className="show-grid">
-            <Col xs={12} md={12}>
-              <div className="post-title-name">{post.title}</div>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
 
     return (
       <Jumbotron className="main">
-        <Panel header={titleWithAuthor} className="post-header">
+        <Panel header={postTitle(post, null)} className="post-header">
           <div className="post-body">
             id: {post.id}<br/>
             {post.body}<br/>
@@ -68,11 +49,7 @@ class Post extends Component {
             </div>
             {comments && comments.map((comment) => (
               <Panel key={comment.id}>
-                <div className="comment-info">
-                  By
-                  <span className="comment-author">{comment.author}</span>
-                  on {millisToDate(comment.timestamp)}
-                </div>
+                {commentTitle(comment, null, null)}
                 <div className="comment-body">
                   {comment.body}
                 </div>
@@ -82,7 +59,7 @@ class Post extends Component {
             ))}
             <Panel>
               <div className="comment-form-head">
-                New Comment
+                Add New Comment
                 <form>
                   <FormGroup controlId="newCommentAuthor">
                     <ControlLabel>Author</ControlLabel>
