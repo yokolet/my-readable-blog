@@ -13,15 +13,9 @@ class Post extends Component {
     super(props);
     this.state = {
       post_id: props.match.params.id,
-      post: null,
-      comments: null,
-      comment: {
-        author: null,
-        body: null,
-        parentId: null,
-      }
+      comment_author: '',
+      comment_body: '',
     }
-    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
@@ -30,18 +24,8 @@ class Post extends Component {
     this.props.setLocation('post')
   }
 
-  handleChange (event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    })
-  }
-
   render() {
-    const { post, comments } = this.props
+    const { post, comments, newComment } = this.props
 
     return (
       <Jumbotron className="main">
@@ -83,7 +67,13 @@ class Post extends Component {
                       componentClass="input"
                       placeholder="Enter name"
                       name="author"
-                      onChange={this.handleChange}
+                      value={this.state.comment_author}
+                      onChange={e => {
+                        e.preventDefault();
+                        this.setState({
+                          comment_author: e.target.value,
+                        })
+                      }}
                     />
                   </FormGroup>
                   <FormGroup controlId="newCommentBody">
@@ -92,7 +82,13 @@ class Post extends Component {
                       componentClass="textarea"
                       placeholder="Enter comment"
                       name="body"
-                      onChange={this.handleChange}
+                      value={this.state.comment_body}
+                      onChange={e => {
+                        e.preventDefault();
+                        this.setState({
+                          comment_body: e.target.value,
+                        })
+                      }}
                     />
                 </FormGroup>
                 </form>
@@ -103,7 +99,12 @@ class Post extends Component {
                     type="submit"
                     onClick={e => {
                       e.preventDefault()
-                      addComment(this.state.comment)
+                      console.log(this.state)
+                      newComment(this.state.comment_author,
+                                  this.state.comment_body,
+                                  this.state.post_id)
+                      this.state.comment_author = ''
+                      this.state.comment_body = ''
                     }}
                     >
                     Create
@@ -134,7 +135,7 @@ Post.propTypes = {
     getAllComments: PropTypes.func.isRequired,
     location: PropTypes.string.isRequired,
     setLocation: PropTypes.func.isRequired,
-    addComment: PropTypes.func.isRequired,
+    newComment: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({ singlePost, currentLocation }) {
@@ -150,7 +151,8 @@ function mapDispatchToProps (dispatch) {
     getSinglePost: id => dispatch(getSinglePost(id)),
     getAllComments: id => dispatch(getAllComments(id)),
     setLocation: location => dispatch(setLocation(location)),
-    addComment: (comment, parentId) => dispatch(addComment(comment.title, comment.body, parentId)),
+    newComment: (author, body, parentId) => dispatch(
+      addComment({author, body, parentId})),
   }
 }
 

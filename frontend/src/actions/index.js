@@ -211,16 +211,16 @@ function completeAddComment(json) {
   }
 }
 
-export function addComment(body, author, parentId) {
+export function addComment(comment) {
   let params = {
     id: uuid.v4(),
     timestamp: Date.now(),
-    body,
-    author,
-    parentId
+    body: comment.body,
+    author: comment.author,
+    parentId: comment.parentId,
   }
   return dispatch => {
-    return API.createComment(params)
+    return API.newComment(params)
       .then(json => dispatch(completeAddComment(json)))
   }
 }

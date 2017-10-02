@@ -57,7 +57,7 @@ export const votePost = (postId, option) =>
         body: JSON.stringify(option)})
         .then(res => res.json())
 
-export const createComment = (comment) =>
+export const newComment = (comment) =>
       fetch(`${APP_BACKEND}/comments`, {
         method: 'POST',
         headers,
