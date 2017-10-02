@@ -63,3 +63,10 @@ export const newComment = (comment) =>
         headers,
         body: JSON.stringify(comment)})
         .then(res => res.json())
+
+export const deleteComment = (commentId) =>
+    fetch(`${APP_BACKEND}/comments/${commentId}`, {
+        method: 'DELETE',
+        headers,
+       })
+      .then(res => res.json())

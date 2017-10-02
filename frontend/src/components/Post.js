@@ -6,7 +6,8 @@ import { ControlLabel, FormControl, FormGroup,
 import { FaThumbsUp } from 'react-icons/lib/fa'
 import postTitle from './PostTitle'
 import commentTitle from './CommentTitle'
-import { getSinglePost, getAllComments, setLocation, addComment } from '../actions'
+import { getSinglePost, getAllComments, setLocation,
+          addComment, deleteComment } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Post extends Component {
   }
 
   render() {
-    const { post, comments, newComment } = this.props
+    const { post, comments, newComment, deleteComment } = this.props
 
     return (
       <Jumbotron className="main">
@@ -49,7 +50,7 @@ class Post extends Component {
             </div>
             {comments && comments.map((comment) => (
               <Panel key={comment.id}>
-                {commentTitle(comment, null, null)}
+                {commentTitle(comment, null, deleteComment)}
                 <div className="comment-body">
                   {comment.body}
                 </div>
@@ -103,8 +104,10 @@ class Post extends Component {
                       newComment(this.state.comment_author,
                                   this.state.comment_body,
                                   this.state.post_id)
-                      this.state.comment_author = ''
-                      this.state.comment_body = ''
+                      this.setState({
+                        comment_author: '',
+                        comment_body: '',
+                      })
                     }}
                     >
                     Create
@@ -136,6 +139,7 @@ Post.propTypes = {
     location: PropTypes.string.isRequired,
     setLocation: PropTypes.func.isRequired,
     newComment: PropTypes.func.isRequired,
+    deleteComment: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({ singlePost, currentLocation }) {
@@ -153,6 +157,7 @@ function mapDispatchToProps (dispatch) {
     setLocation: location => dispatch(setLocation(location)),
     newComment: (author, body, parentId) => dispatch(
       addComment({author, body, parentId})),
+    deleteComment: id => dispatch(deleteComment(id)),
   }
 }
 

@@ -2,7 +2,8 @@ import { REQUEST_SINGLE_POST,
         RECEIVE_SINGLE_POST,
         REQUEST_COMMENTS,
         RECEIVE_COMMENTS,
-        ADD_COMMENT } from '../actions'
+        ADD_COMMENT,
+        DELETE_COMMENT } from '../actions'
 
 const initialState = {
   isFetching: false,
@@ -56,6 +57,17 @@ export default function singlePost(state = initialState, action) {
             parentDeleted: action.result.parentDeleted,
           }
         ]
+      }
+
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.map(comment => (
+          (comment.id === action.result.id)
+          ? {...comment, deleted: action.result.deleted}
+          : comment
+        ))
+        .filter(comment => !comment.deleted)
       }
 
     default:

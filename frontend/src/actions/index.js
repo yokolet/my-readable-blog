@@ -234,10 +234,17 @@ export function editComment({id, body}) {
   }
 }
 
-export function deleteComment({id}) {
+function completeDeleteComment(json) {
   return {
     type: DELETE_COMMENT,
-    id
+    result: json,
+  }
+}
+
+export function deleteComment(id) {
+  return dispatch => {
+    return API.deleteComment(id)
+      .then(json => dispatch(completeDeleteComment(json)))
   }
 }
 
