@@ -20,8 +20,7 @@ export const SET_LOCATION= 'SET_LOCATION'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
-export const UPVOTE_COMMENT = 'UPVOTE_COMMENT'
-export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
+export const CHANGE_VOTE_COMMENT = 'CHANGE_VOTE_COMMENT'
 
 function requestCategories() {
   return {
@@ -248,16 +247,16 @@ export function deleteComment(id) {
   }
 }
 
-export function upVoteComment({id}) {
+function completeVoteComment(json) {
   return {
-    type: UPVOTE_COMMENT,
-    id
+    type: CHANGE_VOTE_COMMENT,
+    result: json
   }
 }
 
-export function downVoteComment({id}) {
-  return {
-    type: DOWNVOTE_COMMENT,
-    id
+export function voteComment(id, option) {
+  return dispatch => {
+    return API.voteComment(id, { option })
+      .then(json => dispatch(completeVoteComment(json)))
   }
 }

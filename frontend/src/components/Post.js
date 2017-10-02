@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { ControlLabel, FormControl, FormGroup,
           Jumbotron, Panel, Button  } from 'react-bootstrap'
-import { FaThumbsUp } from 'react-icons/lib/fa'
+import { FaThumbsUp, FaThumbsOUp, FaThumbsODown } from 'react-icons/lib/fa'
 import postTitle from './PostTitle'
 import commentTitle from './CommentTitle'
 import { getSinglePost, getAllComments, setLocation,
-          addComment, deleteComment } from '../actions'
+          addComment, deleteComment, voteComment } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -26,7 +26,8 @@ class Post extends Component {
   }
 
   render() {
-    const { post, comments, newComment, deleteComment } = this.props
+    const { post, comments, newComment,
+            deleteComment, voteComment } = this.props
 
     return (
       <Jumbotron className="main">
@@ -53,6 +54,25 @@ class Post extends Component {
                 {commentTitle(comment, null, deleteComment)}
                 <div className="comment-body">
                   {comment.body}
+                </div>
+                <div>
+                  <FaThumbsUp size={20} className="post-voted" />
+                  <span className="post-voted">{comment.voteScore}</span>
+                  <Button bsStyle="default"
+                          className="post-up-down-vote"
+                          onClick={e => {
+                            e.preventDefault()
+                            voteComment(comment.id, "upVote")
+                          }}>
+                    <FaThumbsOUp />
+                  </Button>
+                  <Button bsStyle="default"
+                          onClick={e=> {
+                            e.preventDefault()
+                            voteComment(comment.id, "downVote")
+                          }}>
+                    <FaThumbsODown />
+                  </Button>
                 </div>
               <div>{comment.id}</div>
               <div>{comment.parentId}</div>
@@ -140,6 +160,7 @@ Post.propTypes = {
     setLocation: PropTypes.func.isRequired,
     newComment: PropTypes.func.isRequired,
     deleteComment: PropTypes.func.isRequired,
+    voteComment: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({ singlePost, currentLocation }) {
@@ -158,6 +179,7 @@ function mapDispatchToProps (dispatch) {
     newComment: (author, body, parentId) => dispatch(
       addComment({author, body, parentId})),
     deleteComment: id => dispatch(deleteComment(id)),
+    voteComment: (id, option) => dispatch(voteComment(id, option))
   }
 }
 

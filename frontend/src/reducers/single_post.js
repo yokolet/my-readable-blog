@@ -3,7 +3,8 @@ import { REQUEST_SINGLE_POST,
         REQUEST_COMMENTS,
         RECEIVE_COMMENTS,
         ADD_COMMENT,
-        DELETE_COMMENT } from '../actions'
+        DELETE_COMMENT,
+        CHANGE_VOTE_COMMENT } from '../actions'
 
 const initialState = {
   isFetching: false,
@@ -68,6 +69,16 @@ export default function singlePost(state = initialState, action) {
           : comment
         ))
         .filter(comment => !comment.deleted)
+      }
+
+    case CHANGE_VOTE_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.map(comment => (
+          (comment.id === action.result.id)
+          ? {...comment, voteScore: action.result.voteScore}
+          : comment
+        ))
       }
 
     default:

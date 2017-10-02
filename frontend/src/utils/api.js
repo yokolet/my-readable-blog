@@ -11,10 +11,10 @@ const headers = {
 }
 
 export const fetchCategories = () =>
-  fetch(
-    `${APP_BACKEND}/categories`, { headers })
-    .then((res) => res.json())
-    .then((data) => data.categories)
+    fetch(
+      `${APP_BACKEND}/categories`, { headers })
+      .then((res) => res.json())
+      .then((data) => data.categories)
 
 export const fetchPosts = () =>
     fetch(`${APP_BACKEND}/posts`, { headers })
@@ -30,18 +30,18 @@ export const fetchComments = (postId) =>
       .then((res) => res.json())
 
 export const createPost = (post) =>
-      fetch(`${APP_BACKEND}/posts`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(post)})
-        .then(res => res.json())
+    fetch(`${APP_BACKEND}/posts`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(post)})
+      .then(res => res.json())
 
 export const editPost = (postId, post) =>
-      fetch(`${APP_BACKEND}/posts/${postId}`, {
-        method: 'PUT',
-        headers,
-        body: JSON.stringify(post)})
-        .then(res => res.json())
+    fetch(`${APP_BACKEND}/posts/${postId}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(post)})
+      .then(res => res.json())
 
 export const deletePost = (postId) =>
     fetch(`${APP_BACKEND}/posts/${postId}`, {
@@ -51,22 +51,29 @@ export const deletePost = (postId) =>
       .then(res => res.json())
 
 export const votePost = (postId, option) =>
-      fetch(`${APP_BACKEND}/posts/${postId}`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(option)})
-        .then(res => res.json())
+    fetch(`${APP_BACKEND}/posts/${postId}`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(option)})
+      .then(res => res.json())
 
 export const newComment = (comment) =>
-      fetch(`${APP_BACKEND}/comments`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(comment)})
-        .then(res => res.json())
+    fetch(`${APP_BACKEND}/comments`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(comment)})
+      .then(res => res.json())
 
 export const deleteComment = (commentId) =>
     fetch(`${APP_BACKEND}/comments/${commentId}`, {
         method: 'DELETE',
         headers,
        })
+      .then(res => res.json())
+
+export const voteComment = (commentId, option) =>
+    fetch(`${APP_BACKEND}/comments/${commentId}`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(option)})
       .then(res => res.json())
