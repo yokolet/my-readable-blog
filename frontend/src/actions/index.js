@@ -21,6 +21,7 @@ export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const CHANGE_VOTE_COMMENT = 'CHANGE_VOTE_COMMENT'
+export const SET_VISIBILITY_EDIT_COMMENT = 'SET_VISIBILITY_EDIT_COMMENT'
 
 function requestCategories() {
   return {
@@ -244,6 +245,13 @@ export function deleteComment(id) {
   return dispatch => {
     return API.deleteComment(id)
       .then(json => dispatch(completeDeleteComment(json)))
+  }
+}
+
+export function setVisibilityEditComment(open) {
+  return {
+    type: SET_VISIBILITY_EDIT_COMMENT,
+    open,
   }
 }
 
