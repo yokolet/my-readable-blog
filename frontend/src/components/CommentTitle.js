@@ -28,7 +28,7 @@ const commentTitle = (comment, setCommentEditOpen, deleteComment) => {
             <Button bsStyle="default"
                     onClick={e => {
                       e.preventDefault()
-                      setCommentEditOpen(true, comment)
+                      setCommentEditOpen(true, comment.id)
                     }}>
               <FaPencil />
             </Button>

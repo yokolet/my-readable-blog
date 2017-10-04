@@ -64,6 +64,13 @@ export const newComment = (comment) =>
       body: JSON.stringify(comment)})
       .then(res => res.json())
 
+export const editComment = (commentId, comment) =>
+    fetch(`${APP_BACKEND}/comments/${commentId}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(comment)})
+      .then(res => res.json())
+
 export const deleteComment = (commentId) =>
     fetch(`${APP_BACKEND}/comments/${commentId}`, {
         method: 'DELETE',

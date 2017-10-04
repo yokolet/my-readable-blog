@@ -3,6 +3,7 @@ import { REQUEST_SINGLE_POST,
         REQUEST_COMMENTS,
         RECEIVE_COMMENTS,
         ADD_COMMENT,
+        EDIT_COMMENT,
         DELETE_COMMENT,
         CHANGE_VOTE_COMMENT } from '../actions'
 
@@ -58,6 +59,18 @@ export default function singlePost(state = initialState, action) {
             parentDeleted: action.result.parentDeleted,
           }
         ]
+      }
+
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.map(comment => (
+          (comment.id === action.result.id)
+          ? {...comment,
+              timestamp: action.result.timestamp,
+              body: action.result.body}
+          : comment
+        ))
       }
 
     case DELETE_COMMENT:

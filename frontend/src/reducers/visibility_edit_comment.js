@@ -10,7 +10,7 @@ export default function visibilityEditComment(state = initialState, action) {
     case SET_VISIBILITY_EDIT_COMMENT:
       return {
         open: action.open,
-        comment: action.comment,
+        id: action.id,
       }
 
     default:

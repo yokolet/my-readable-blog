@@ -116,6 +116,7 @@ function completeEditPost(json) {
     result: json,
   }
 }
+
 export function editPost(id, post) {
   let params = {
     title: post.title,
@@ -225,12 +226,21 @@ export function addComment(comment) {
   }
 }
 
-export function editComment({id, body}) {
+function completeEditComment(json) {
   return {
     type: EDIT_COMMENT,
-    id,
+    result: json,
+  }
+}
+
+export function editComment(id, comment) {
+  let params = {
     timestamp: Date.now(),
-    body
+    body: comment.body,
+  }
+  return dispatch => {
+    return API.editComment(id, params)
+      .then(json => dispatch(completeEditComment(json)))
   }
 }
 
@@ -248,10 +258,11 @@ export function deleteComment(id) {
   }
 }
 
-export function setVisibilityEditComment(open) {
+export function setVisibilityEditComment(open, id) {
   return {
     type: SET_VISIBILITY_EDIT_COMMENT,
     open,
+    id,
   }
 }
 

@@ -6,8 +6,10 @@ import { ControlLabel, FormControl, FormGroup,
 import { FaThumbsUp, FaThumbsOUp, FaThumbsODown } from 'react-icons/lib/fa'
 import postTitle from './PostTitle'
 import commentTitle from './CommentTitle'
+import CommentBody from './CommentBody'
 import { getSinglePost, getAllComments, setLocation,
-          addComment, deleteComment, voteComment } from '../actions'
+          addComment, deleteComment, setVisibilityEditComment,
+          voteComment } from '../actions'
 
 class Post extends Component {
   constructor(props) {
@@ -26,8 +28,8 @@ class Post extends Component {
   }
 
   render() {
-    const { post, comments, newComment,
-            deleteComment, voteComment } = this.props
+    const { post, comments, newComment, deleteComment,
+            setEditCommentOpen, voteComment } = this.props
 
     return (
       <Jumbotron className="main">
@@ -51,10 +53,8 @@ class Post extends Component {
             </div>
             {comments && comments.map((comment) => (
               <Panel key={comment.id}>
-                {commentTitle(comment, null, deleteComment)}
-                <div className="comment-body">
-                  {comment.body}
-                </div>
+                {commentTitle(comment, setEditCommentOpen, deleteComment)}
+                <CommentBody comment={ comment }/>
                 <div>
                   <FaThumbsUp size={20} className="post-voted" />
                   <span className="post-voted">{comment.voteScore}</span>
@@ -120,7 +120,6 @@ class Post extends Component {
                     type="submit"
                     onClick={e => {
                       e.preventDefault()
-                      console.log(this.state)
                       newComment(this.state.comment_author,
                                   this.state.comment_body,
                                   this.state.post_id)
@@ -154,20 +153,23 @@ Post.propTypes = {
       deleted: PropTypes.bool.isRequired,
     }),
     comments: PropTypes.array,
+    location: PropTypes.string.isRequired,
+    isCommentEditOpen: PropTypes.bool.isRequired,
     getSinglePost: PropTypes.func.isRequired,
     getAllComments: PropTypes.func.isRequired,
-    location: PropTypes.string.isRequired,
     setLocation: PropTypes.func.isRequired,
     newComment: PropTypes.func.isRequired,
     deleteComment: PropTypes.func.isRequired,
+    setEditCommentOpen: PropTypes.func.isRequired,
     voteComment: PropTypes.func.isRequired,
 }
 
-function mapStateToProps({ singlePost, currentLocation }) {
+function mapStateToProps({ singlePost, currentLocation, visibilityEditComment }) {
   return {
     post: singlePost.post,
     comments: singlePost.comments,
     location: currentLocation.location,
+    isCommentEditOpen: visibilityEditComment.open,
   }
 }
 
@@ -179,7 +181,8 @@ function mapDispatchToProps (dispatch) {
     newComment: (author, body, parentId) => dispatch(
       addComment({author, body, parentId})),
     deleteComment: id => dispatch(deleteComment(id)),
-    voteComment: (id, option) => dispatch(voteComment(id, option))
+    setEditCommentOpen: (open, id) => dispatch(setVisibilityEditComment(open, id)),
+    voteComment: (id, option) => dispatch(voteComment(id, option)),
   }
 }
 
