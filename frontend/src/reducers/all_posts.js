@@ -22,7 +22,7 @@ export default function allPosts(state = initialState, action) {
       return {
         ...state,
         isFetcheing: false,
-        posts: action.posts,
+        posts: action.result,
       }
 
     case ADD_POST:

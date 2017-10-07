@@ -7,16 +7,17 @@ import NewPost from './NewPost'
 import EditPost from './EditPost'
 import { setLocation } from '../actions'
 
-class Home extends Component {
+class Category extends Component {
 
   componentDidMount() {
-    this.props.setLocation('home')
+    this.props.setLocation('category')
   }
 
   render() {
+    let category = this.props.match.params.category
     return (
       <div>
-        <PostList category={'all'}/>
+        <PostList category={category}/>
         <AddButton />
         <NewPost />
         <EditPost />
@@ -25,12 +26,12 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
+Category.propTypes = {
   location: PropTypes.string.isRequired,
   setLocation: PropTypes.func.isRequired,
 }
 
-function mapStateToProps({currentLocation}) {
+function mapStateToProps({currentLocation,}) {
   return {
     location: currentLocation.location,
   }
@@ -45,4 +46,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(Category);

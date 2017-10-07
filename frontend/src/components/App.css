@@ -38,6 +38,11 @@
   border-color: #2d2100;
 }
 
+.menuitem-link {
+  display: block;
+  text-decoration: none;
+}
+
 .main {
   position: relative;
   width: 100%;
@@ -75,6 +80,11 @@
 
 .post-category {
   margin-bottom: 5px;
+}
+
+.post-category a {
+  color: white;
+  text-decoration: none;
 }
 
 .post-voted {

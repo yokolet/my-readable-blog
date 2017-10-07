@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Jumbotron } from 'react-bootstrap'
 import PostListEntry from './PostListEntry'
-import { getAllPosts } from '../actions'
+import { getCategoryPosts } from '../actions'
 
 class PostList extends Component {
 
   componentDidMount() {
-    this.props.getAllPosts()
+    this.props.getCategoryPosts('all')
   }
 
   render() {
@@ -42,20 +42,19 @@ PostList.propTypes = {
       deleted: PropTypes.bool.isRequired,
     }).isRequired,
   ).isRequired,
-  getAllPosts: PropTypes.func.isRequired,
+  getCategoryPosts: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
 }
 
 function mapStateToProps({allPosts, visibilityCategory}) {
   return {
     posts: allPosts.posts,
-    category: visibilityCategory.category,
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    getAllPosts: () => dispatch(getAllPosts())
+    getCategoryPosts: category => dispatch(getCategoryPosts(category))
   }
 }
 

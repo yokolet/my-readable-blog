@@ -44,24 +44,29 @@ export function getAllCategories() {
   }
 }
 
-function requestPosts() {
+function request(type) {
   return {
-    type: REQUEST_POSTS,
+    type,
   }
 }
 
-function receivePosts(json) {
+function receive(type, json) {
   return {
-    type: RECEIVE_POSTS,
-    posts: json
+    type,
+    result: json
   }
 }
 
-export function getAllPosts() {
+export function getCategoryPosts(category) {
   return dispatch => {
-    dispatch(requestPosts())
-    return API.fetchPosts()
-      .then(json => dispatch(receivePosts(json)))
+    dispatch(request(REQUEST_POSTS))
+    if (category === 'all') {
+      return API.fetchPosts()
+        .then(json => dispatch(receive(RECEIVE_POSTS, json)))
+    } else {
+      return API.fetchCategoryPosts(category)
+        .then(json => dispatch(receive(RECEIVE_POSTS, json)))
+    }
   }
 }
 

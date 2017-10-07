@@ -6,7 +6,7 @@ import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import * as FA from 'react-icons/lib/fa'
 import postTitle from './PostTitle'
 import * as API from '../utils/api'
-import { setVisibilityCategory, votePost, setVisibilityEditPostModal } from '../actions'
+import { votePost, setVisibilityEditPostModal } from '../actions'
 
 class PostListEntry extends Component {
   constructor(props) {
@@ -19,7 +19,6 @@ class PostListEntry extends Component {
   componentDidMount() {
     API.fetchComments(this.props.post.id)
       .then((comments) => {
-        console.log(comments)
         this.setState(() => ({
           comments
       }))
@@ -28,7 +27,7 @@ class PostListEntry extends Component {
 
   render() {
     const { comments } = this.state
-    const { post, setCategory, vote, setEditModalOpen } = this.props
+    const { post, vote, setEditModalOpen } = this.props
 
     return (
       <Panel header={postTitle(post, setEditModalOpen)} className="post-header">
@@ -37,12 +36,12 @@ class PostListEntry extends Component {
           {post.body}<br/>
         </div>
         <div className="post-category">
-          <Button bsSize="small"
-                  bsStyle="info"
-                  onClick={e => {
-                    e.preventDefault()
-                    setCategory(post.category)
-                  }}>{post.category}</Button>
+          <Link to={'/' + post.category}>
+            <Button bsSize="small"
+                    bsStyle="info">
+              {post.category}
+            </Button>
+          </Link>
         </div>
         <Grid>
           <Row className="show-grid">
@@ -91,21 +90,18 @@ PostListEntry.propTypes = {
       voteScore: PropTypes.number.isRequired,
       deleted: PropTypes.bool.isRequired,
     }),
-    setCategory: PropTypes.func.isRequired,
     vote: PropTypes.func.isRequired,
     setEditModalOpen: PropTypes.func.isRequired,
 }
 
-function mapStateToProps({visibilityCategory, visibilityEditPostModal}) {
+function mapStateToProps({visibilityEditPostModal}) {
   return {
-    category: visibilityCategory.category,
     isEditOpen: visibilityEditPostModal.open,
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    setCategory: category => dispatch(setVisibilityCategory(category)),
     vote: (id, option) => dispatch(votePost(id, option)),
     setEditModalOpen: (open, data) => dispatch(setVisibilityEditPostModal(open, data))
   }
