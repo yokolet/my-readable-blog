@@ -10,8 +10,8 @@ class Main extends Component {
       <main>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/posts/:id" component={Post} />
-          <Route path="/:category" component={Category} />
+          <Route exact path="/:category" component={Category} />
+          <Route path="/:category/:id" component={Post} />
         </Switch>
       </main>
     )

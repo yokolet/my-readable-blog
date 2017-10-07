@@ -65,7 +65,7 @@ class PostListEntry extends Component {
               </Button>
             </Col>
             <Col xs={3} md={2} lg={1}>
-              <Link to={`/posts/${post.id}`}>
+              <Link to={`/${post.category}/${post.id}`}>
                 <Button bsStyle="default">
                   <FA.FaCommentO size={20}/>
                   <span className="post-comment">{comments ? comments.length : 0}</span>
