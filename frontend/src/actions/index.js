@@ -5,7 +5,6 @@ export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-export const SET_VISIBILITY_CATEGORY = 'SET_VISIBILITY_CATEGORY'
 export const SET_VISIBILITY_NEWPOST_MODAL = 'SET_VISIBILITY_NEWPOST_MODAL'
 export const ADD_POST = 'ADD_POST'
 export const SET_VISIBILITY_EDITPOST_MODAL = 'SET_VISIBILITY_EDITPOST_MODAL'
@@ -67,13 +66,6 @@ export function getCategoryPosts(category) {
       return API.fetchCategoryPosts(category)
         .then(json => dispatch(receive(RECEIVE_POSTS, json)))
     }
-  }
-}
-
-export function setVisibilityCategory(category) {
-  return {
-    type: SET_VISIBILITY_CATEGORY,
-    category,
   }
 }
 
