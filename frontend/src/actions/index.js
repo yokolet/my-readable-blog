@@ -11,6 +11,7 @@ export const SET_VISIBILITY_EDITPOST_MODAL = 'SET_VISIBILITY_EDITPOST_MODAL'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const CHANGE_VOTE_POST = 'CHANGE_VOTE_POST'
+export const CHANGE_SORT_BY = 'CHANGE_SORT_BY'
 export const REQUEST_SINGLE_POST = 'REQUEST_SINGLE_POST'
 export const RECEIVE_SINGLE_POST = 'RECEIVE_SINGLE_POST'
 export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
@@ -150,6 +151,14 @@ export function votePost(id, option) {
   return dispatch => {
     return API.votePost(id, { option })
       .then(json => dispatch(completeVotePost(json)))
+  }
+}
+
+export function setSortBy(key, weight) {
+  return {
+    type: CHANGE_SORT_BY,
+    key,
+    weight,
   }
 }
 

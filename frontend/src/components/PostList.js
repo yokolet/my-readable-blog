@@ -12,7 +12,7 @@ class PostList extends Component {
   }
 
   render() {
-    const { posts, category } = this.props
+    const { posts, category, sortKey, sortWeight } = this.props
 
     return (
       <div>
@@ -20,6 +20,9 @@ class PostList extends Component {
           {posts && posts.filter((post) => (
             category === "all" || post.category === category
           ))
+          .sort(function(a, b) {
+            return (a[sortKey] - b[sortKey]) * sortWeight
+          })
           .map((post) => (
             <PostBody post={post} key={post.id}/>
           ))}
@@ -42,6 +45,8 @@ PostList.propTypes = {
       deleted: PropTypes.bool.isRequired,
     }).isRequired,
   ).isRequired,
+  sortKey: PropTypes.string.isRequired,
+  sortWeight: PropTypes.number.isRequired,
   getCategoryPosts: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
 }
@@ -49,6 +54,8 @@ PostList.propTypes = {
 function mapStateToProps({allPosts, visibilityCategory}) {
   return {
     posts: allPosts.posts,
+    sortKey: allPosts.sortKey,
+    sortWeight: allPosts.sortWeight,
   }
 }
 

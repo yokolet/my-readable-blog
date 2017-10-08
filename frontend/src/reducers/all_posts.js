@@ -3,10 +3,13 @@ import { REQUEST_POSTS,
           ADD_POST,
           EDIT_POST,
           CHANGE_VOTE_POST,
-          DELETE_POST } from '../actions'
+          DELETE_POST,
+          CHANGE_SORT_BY } from '../actions'
 
 const initialState = {
   isFetcheing: false,
+  sortKey: "timestamp",
+  sortWeight: 1,
   posts: []
 }
 
@@ -74,6 +77,13 @@ export default function allPosts(state = initialState, action) {
           : post
         ))
         .filter(post => !post.deleted)
+      }
+
+    case CHANGE_SORT_BY:
+      return {
+        ...state,
+        sortKey: action.key,
+        sortWeight: action.weight,
       }
 
     default:

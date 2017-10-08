@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { getAllCategories, setVisibilityNewPostModal } from '../actions'
+import { FaHome, FaAngleDoubleUp, FaAngleDoubleDown } from 'react-icons/lib/fa'
+import { getAllCategories, setVisibilityNewPostModal, setSortBy } from '../actions'
 
 class Header extends Component {
 
@@ -12,7 +13,7 @@ class Header extends Component {
   }
 
   render() {
-    const { categories, setModalOpen, location } = this.props
+    const { categories, setModalOpen, changeSortBy, location } = this.props
     var headerContent
     if (location === 'home' || location === 'category') {
       headerContent =
@@ -30,7 +31,7 @@ class Header extends Component {
         <Navbar inverse collapseOnSelect fixedTop>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/">Readable Blog</Link>
+              <Link to="/">Readable Blog <FaHome /></Link>
             </Navbar.Brand>
             { location === 'home' &&
               <Navbar.Toggle />
@@ -43,6 +44,41 @@ class Header extends Component {
                           e.preventDefault()
                           setModalOpen(true)
                         }}>New Post</NavItem>
+                <NavDropdown title="Sort by" id="basic-nav-dropdown">
+                  <MenuItem
+                    onClick={e => {
+                      e.preventDefault()
+                      changeSortBy("timestamp", -1)
+                  }}>
+                    <FaAngleDoubleUp />
+                  </MenuItem>
+                  <MenuItem header>Date</MenuItem>
+                  <MenuItem
+                    onClick={e => {
+                      e.preventDefault()
+                      changeSortBy("timestamp", 1)
+                  }}>
+                    <FaAngleDoubleDown />
+                  </MenuItem>
+                  <MenuItem divider />
+                  <MenuItem
+                    value="score"
+                    onClick={e => {
+                      e.preventDefault()
+                      changeSortBy("voteScore", -1)
+                  }}>
+                    <FaAngleDoubleUp />
+                  </MenuItem>
+                  <MenuItem header>Vote</MenuItem>
+                  <MenuItem
+                    value="score"
+                    onClick={e => {
+                      e.preventDefault()
+                      changeSortBy("voteScore", 1)
+                  }}>
+                    <FaAngleDoubleDown />
+                  </MenuItem>
+                </NavDropdown>
                 <NavDropdown title="Category" id="basic-nav-dropdown">
                   <MenuItem>
                     <Link to="/" className="menuitem-link">all</Link>
@@ -72,6 +108,7 @@ Header.propTypes = {
   location: PropTypes.string.isRequired,
   getAllCategories: PropTypes.func.isRequired,
   setModalOpen: PropTypes.func.isRequired,
+  changeSortBy: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({
@@ -88,7 +125,8 @@ function mapStateToProps({
 function mapDispatchToProps (dispatch) {
   return {
     getAllCategories: () => dispatch(getAllCategories()),
-    setModalOpen: open => dispatch(setVisibilityNewPostModal(open))
+    setModalOpen: open => dispatch(setVisibilityNewPostModal(open)),
+    changeSortBy: (key, weight) => dispatch(setSortBy(key, weight)),
   }
 }
 
