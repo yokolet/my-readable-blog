@@ -1,5 +1,6 @@
 import { REQUEST_SINGLE_POST,
         RECEIVE_SINGLE_POST,
+        EDIT_POST,
         CHANGE_VOTE_POST,
         REQUEST_COMMENTS,
         RECEIVE_COMMENTS,
@@ -28,6 +29,14 @@ export default function singlePost(state = initialState, action) {
         ...state,
         isFetching: false,
         post: action.post,
+      }
+
+    case EDIT_POST:
+      return {
+        ...state,
+        post: {...state.post,
+              title: action.result.title,
+              body: action.result.body}
       }
 
     case CHANGE_VOTE_POST:

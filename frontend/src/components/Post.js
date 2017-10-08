@@ -5,6 +5,7 @@ import { ControlLabel, FormControl, FormGroup,
           Jumbotron, Panel, Button  } from 'react-bootstrap'
 import { FaThumbsUp, FaThumbsOUp, FaThumbsODown } from 'react-icons/lib/fa'
 import PostBody from './PostBody'
+import EditPost from './EditPost'
 import commentTitle from './CommentTitle'
 import CommentBody from './CommentBody'
 import { getSinglePost, getAllComments, setLocation,
@@ -35,6 +36,7 @@ class Post extends Component {
       <Jumbotron className="main">
         <Panel>
           <PostBody post={post} />
+          <EditPost />
           <div className="comments">
             <div className="comments-head">
               {comments.length} Comments
