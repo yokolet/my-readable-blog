@@ -190,7 +190,7 @@ function requestComments() {
 function receiveComments(json) {
   return {
     type: RECEIVE_COMMENTS,
-    comments: json
+    comments: json,
   }
 }
 

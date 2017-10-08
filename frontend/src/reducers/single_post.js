@@ -47,7 +47,7 @@ export default function singlePost(state = initialState, action) {
       return {
         ...state,
         isCommentsFetching: false,
-        comments: action.comments
+        comments: action.comments,
       }
 
     case ADD_COMMENT:

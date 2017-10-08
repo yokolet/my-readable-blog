@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { ControlLabel, FormControl, FormGroup,
           Jumbotron, Panel, Button  } from 'react-bootstrap'
 import { FaThumbsUp, FaThumbsOUp, FaThumbsODown } from 'react-icons/lib/fa'
-import postTitle from './PostTitle'
+import PostBody from './PostBody'
 import commentTitle from './CommentTitle'
 import CommentBody from './CommentBody'
-import { getSinglePost, getAllComments, setLocation, votePost,
+import { getSinglePost, getAllComments, setLocation,
           addComment, deleteComment, setVisibilityEditComment,
           voteComment } from '../actions'
 
@@ -28,40 +28,13 @@ class Post extends Component {
   }
 
   render() {
-    const { post, vote, comments, newComment, deleteComment,
+    const { post, comments, newComment, deleteComment,
             setEditCommentOpen, voteComment } = this.props
 
     return (
       <Jumbotron className="main">
-        <Panel header={postTitle(post, null)} className="post-header">
-          <div className="post-body">
-            id: {post.id}<br/>
-            {post.body}<br/>
-          </div>
-          <div className="post-category">
-            <Button bsSize="small"
-                    bsStyle="info"
-                    disabled>
-              {post.category}
-            </Button>
-            <FaThumbsUp size={24} className="post-voted" />
-            <span className="post-voted">{post.voteScore}</span>
-            <Button bsStyle="default"
-                    className="post-up-down-vote"
-                    onClick={e => {
-                      e.preventDefault()
-                      vote(post.id, "upVote")
-                    }}>
-              <FaThumbsOUp />
-            </Button>
-            <Button bsStyle="default"
-                    onClick={e=> {
-                      e.preventDefault()
-                      vote(post.id, "downVote")
-                    }}>
-              <FaThumbsODown />
-            </Button>
-          </div>
+        <Panel>
+          <PostBody post={post} />
           <div className="comments">
             <div className="comments-head">
               {comments.length} Comments
@@ -170,7 +143,6 @@ Post.propTypes = {
     comments: PropTypes.array,
     location: PropTypes.string.isRequired,
     isCommentEditOpen: PropTypes.bool.isRequired,
-    vote: PropTypes.func.isRequired,
     getSinglePost: PropTypes.func.isRequired,
     getAllComments: PropTypes.func.isRequired,
     setLocation: PropTypes.func.isRequired,
@@ -194,7 +166,6 @@ function mapDispatchToProps (dispatch) {
     getSinglePost: id => dispatch(getSinglePost(id)),
     getAllComments: id => dispatch(getAllComments(id)),
     setLocation: location => dispatch(setLocation(location)),
-    vote: (id, option) => dispatch(votePost(id, option)),
     newComment: (author, body, parentId) => dispatch(
       addComment({author, body, parentId})),
     deleteComment: id => dispatch(deleteComment(id)),

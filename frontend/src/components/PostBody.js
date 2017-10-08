@@ -8,7 +8,7 @@ import postTitle from './PostTitle'
 import * as API from '../utils/api'
 import { votePost, setVisibilityEditPostModal } from '../actions'
 
-class PostListEntry extends Component {
+class PostBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,12 +25,27 @@ class PostListEntry extends Component {
     })
   }
 
+  commentButton = (location, post, comments) => {
+    if (location === 'home' || location === 'category') {
+      return (
+        <Link to={`/${post.category}/${post.id}`}>
+          <Button bsStyle="default">
+            <FA.FaCommentO size={20}/>
+            <span className="post-comment">{comments ? comments.length : 0}</span>
+          </Button>
+        </Link>
+      )
+    } else {
+      return (<div></div>)
+    }
+  }
+
   render() {
     const { comments } = this.state
-    const { post, vote, setEditModalOpen } = this.props
+    const { post, vote, setEditModalOpen, location } = this.props
 
     return (
-      <Panel header={postTitle(post, setEditModalOpen)} className="post-header">
+      <Panel header={postTitle(post, setEditModalOpen)}>
         <div className="post-body">
           id: {post.id}<br/>
           {post.body}<br/>
@@ -65,12 +80,7 @@ class PostListEntry extends Component {
               </Button>
             </Col>
             <Col xs={3} md={2} lg={1}>
-              <Link to={`/${post.category}/${post.id}`}>
-                <Button bsStyle="default">
-                  <FA.FaCommentO size={20}/>
-                  <span className="post-comment">{comments ? comments.length : 0}</span>
-                </Button>
-              </Link>
+              { this.commentButton(location, post, comments) }
             </Col>
           </Row>
         </Grid>
@@ -79,7 +89,7 @@ class PostListEntry extends Component {
   }
 }
 
-PostListEntry.propTypes = {
+PostBody.propTypes = {
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
       timestamp: PropTypes.number.isRequired,
@@ -92,11 +102,14 @@ PostListEntry.propTypes = {
     }),
     vote: PropTypes.func.isRequired,
     setEditModalOpen: PropTypes.func.isRequired,
+    location: PropTypes.string.isRequired,
 }
 
-function mapStateToProps({visibilityEditPostModal}) {
+function mapStateToProps({visibilityEditPostModal, singlePost, currentLocation}) {
   return {
+    comments: singlePost.comments,
     isEditOpen: visibilityEditPostModal.open,
+    location: currentLocation.location,
   }
 }
 
@@ -110,4 +123,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PostListEntry);
+)(PostBody);

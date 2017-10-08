@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Jumbotron } from 'react-bootstrap'
-import PostListEntry from './PostListEntry'
+import PostBody from './PostBody'
 import { getCategoryPosts } from '../actions'
 
 class PostList extends Component {
@@ -21,7 +21,7 @@ class PostList extends Component {
             category === "all" || post.category === category
           ))
           .map((post) => (
-            <PostListEntry post={post} key={post.id}/>
+            <PostBody post={post} key={post.id}/>
           ))}
         </Jumbotron>
       </div>
