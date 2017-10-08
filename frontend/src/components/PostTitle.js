@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Grid, Row, Col  } from 'react-bootstrap'
 import { FaPencil } from 'react-icons/lib/fa'
 import { millisToDate } from '../utils/helpers'
@@ -18,7 +19,11 @@ const postTitle = (post, setEditModalOpen) => {
         </Row>
         <Row className="show-grid">
           <Col xs={9} md={11}>
-            <div className="post-title-name">{post.title}</div>
+            <div className="post-title-name">
+              <Link to={`/${post.category}/${post.id}`}>
+                {post.title}
+              </Link>
+            </div>
           </Col>
           <Col xs={3} md={1}>
             {setEditModalOpen &&
