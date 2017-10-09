@@ -38,3 +38,7 @@ npm start
 - yarn
   * install all project dependencies with `yarn install`
   * start the development server with `yarn start`
+
+## Reference
+
+- [Example: Reddit API](http://redux.js.org/docs/advanced/ExampleRedditAPI.html)
