@@ -10,7 +10,7 @@ class CommentBody extends Component {
     super(props)
     this.state = {
       onEdit: false,
-      body: null,
+      body: '',
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -25,8 +25,8 @@ class CommentBody extends Component {
   render() {
     const { comment, isCommentEditOpen, commentEditId,
             setEditCommentOpen, updateComment } = this.props
-    var comment_body;
-    var edit_buttons;
+    let comment_body;
+    let edit_buttons;
     if (isCommentEditOpen && commentEditId === comment.id) {
       comment_body =
         <form>

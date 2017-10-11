@@ -8,10 +8,10 @@ class NewPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: null,
-      body: null,
-      author: null,
-      category: null,
+      title: '',
+      body: '',
+      author: '',
+      category: '',
     }
     this.handleChange = this.handleChange.bind(this)
   }
