@@ -2,13 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FaFlickr } from 'react-icons/lib/fa'
-import { setLocation } from '../actions'
 
 class Footer extends Component {
-
-  componentDidMount() {
-    this.props.setLocation('home')
-  }
 
   photoCredit = (location) => {
     let content
@@ -45,13 +40,6 @@ function mapStateToProps({currentLocation}) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    setLocation: location => dispatch(setLocation(location)),
-  }
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(Footer);
