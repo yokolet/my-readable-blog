@@ -14,7 +14,7 @@ class Header extends Component {
 
   render() {
     const { categories, setModalOpen, changeSortBy, location } = this.props
-    var headerContent
+    let headerContent
     if (location === 'home' || location === 'category') {
       headerContent =
         <div className="App-header">
