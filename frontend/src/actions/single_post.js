@@ -1,7 +1,6 @@
-import * as API from '../utils/api'
-
-export const REQUEST_SINGLE_POST = 'REQUEST_SINGLE_POST'
-export const RECEIVE_SINGLE_POST = 'RECEIVE_SINGLE_POST'
+import { fetchSinglePost } from '../utils/api'
+import { REQUEST_SINGLE_POST,
+          RECEIVE_SINGLE_POST } from '../constants/actions'
 
 function requestSinglePost() {
   return {
@@ -19,7 +18,7 @@ function receiveSinglePost(json) {
 export function getSinglePost(id) {
   return dispatch => {
     dispatch(requestSinglePost())
-    return API.fetchSinglePost(id)
+    return fetchSinglePost(id)
       .then(json => dispatch(receiveSinglePost(json)))
   }
 }
