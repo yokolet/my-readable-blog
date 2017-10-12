@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Jumbotron } from 'react-bootstrap'
 import PostBody from './PostBody'
-import { getCategoryPosts } from '../actions'
+import { getCategoryPosts } from '../actions/posts'
 
 class PostList extends Component {
 

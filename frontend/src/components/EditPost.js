@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Col, ControlLabel, Button, FormControl,
           FormGroup, Grid, Modal, Row } from 'react-bootstrap'
-import { setVisibilityEditPostModal, editPost, deletePost } from '../actions'
+import { editPost, deletePost } from '../actions/posts'
+import { setVisibilityEditPostModal } from '../actions'
 
 class EditPost extends Component {
   constructor(props) {

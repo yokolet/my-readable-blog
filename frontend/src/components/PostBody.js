@@ -6,7 +6,8 @@ import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import * as FA from 'react-icons/lib/fa'
 import postTitle from './PostTitle'
 import * as API from '../utils/api'
-import { votePost, setVisibilityEditPostModal } from '../actions'
+import { votePost } from '../actions/posts'
+import { setVisibilityEditPostModal } from '../actions'
 
 class PostBody extends Component {
   constructor(props) {

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { ControlLabel, Button, FormControl, FormGroup, Modal } from 'react-bootstrap'
-import { setVisibilityNewPostModal, addPost } from '../actions'
+import { addPost } from '../actions/posts'
+import { setVisibilityNewPostModal } from '../actions'
 
 class NewPost extends Component {
   constructor(props) {

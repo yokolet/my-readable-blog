@@ -4,7 +4,7 @@ import { REQUEST_POSTS,
           EDIT_POST,
           CHANGE_VOTE_POST,
           DELETE_POST,
-          CHANGE_SORT_BY } from '../actions'
+          CHANGE_SORT_BY } from '../constants/actions'
 
 const initialState = {
   isFetcheing: false,
