@@ -7,7 +7,7 @@ import { REQUEST_SINGLE_POST,
         ADD_COMMENT,
         EDIT_COMMENT,
         DELETE_COMMENT,
-        CHANGE_VOTE_COMMENT } from '../actions'
+        CHANGE_VOTE_COMMENT } from '../constants/actions'
 
 const initialState = {
   isFetching: false,

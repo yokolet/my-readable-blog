@@ -8,9 +8,9 @@ import PostBody from './PostBody'
 import EditPost from './EditPost'
 import commentTitle from './CommentTitle'
 import CommentBody from './CommentBody'
-import { getSinglePost, getAllComments, setLocation,
-          addComment, deleteComment, setVisibilityEditComment,
-          voteComment } from '../actions'
+import { getSinglePost, setLocation } from '../actions'
+import { getAllComments, addComment, deleteComment,
+          setVisibilityEditComment, voteComment } from '../actions/comments'
 
 class Post extends Component {
   constructor(props) {

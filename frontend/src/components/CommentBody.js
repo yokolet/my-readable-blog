@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Col, ControlLabel, Button, FormControl,
           FormGroup, Grid, Row } from 'react-bootstrap'
-import { setVisibilityEditComment, editComment } from '../actions'
+import { setVisibilityEditComment, editComment } from '../actions/comments'
 
 class CommentBody extends Component {
   constructor(props) {

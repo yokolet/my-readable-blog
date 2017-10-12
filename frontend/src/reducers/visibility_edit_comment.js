@@ -1,4 +1,4 @@
-import { SET_VISIBILITY_EDIT_COMMENT } from '../actions'
+import { SET_VISIBILITY_EDIT_COMMENT } from '../constants/actions'
 
 const initialState = {
   open: false,
