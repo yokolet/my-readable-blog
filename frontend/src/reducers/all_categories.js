@@ -1,4 +1,5 @@
-import { REQUEST_CATEGORIES, RECEIVE_CATEGORIES } from '../actions'
+import { REQUEST_CATEGORIES,
+          RECEIVE_CATEGORIES } from '../constants/actions'
 
 const initialState = {
   isFetcheing: false,

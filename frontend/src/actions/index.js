@@ -1,8 +1,6 @@
 import uuid from 'js-uuid'
 import * as API from '../utils/api'
 
-export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
-export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const SET_VISIBILITY_NEWPOST_MODAL = 'SET_VISIBILITY_NEWPOST_MODAL'
@@ -22,27 +20,6 @@ export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const CHANGE_VOTE_COMMENT = 'CHANGE_VOTE_COMMENT'
 export const SET_VISIBILITY_EDIT_COMMENT = 'SET_VISIBILITY_EDIT_COMMENT'
-
-function requestCategories() {
-  return {
-    type: REQUEST_CATEGORIES,
-  }
-}
-
-function receiveCategories(json) {
-  return {
-    type: RECEIVE_CATEGORIES,
-    categories: json
-  }
-}
-
-export function getAllCategories() {
-  return dispatch => {
-    dispatch(requestCategories())
-    return API.fetchCategories()
-      .then(json => dispatch(receiveCategories(json)))
-  }
-}
 
 function request(type) {
   return {

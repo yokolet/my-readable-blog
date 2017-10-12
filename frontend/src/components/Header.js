@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { FaHome, FaAngleDoubleUp, FaAngleDoubleDown } from 'react-icons/lib/fa'
-import { getAllCategories, setVisibilityNewPostModal, setSortBy } from '../actions'
+import { getAllCategories } from '../actions/categories'
+import { setVisibilityNewPostModal, setSortBy } from '../actions'
 
 class Header extends Component {
 
