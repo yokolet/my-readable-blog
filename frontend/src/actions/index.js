@@ -3,7 +3,6 @@ import * as API from '../utils/api'
 
 export const SET_VISIBILITY_NEWPOST_MODAL = 'SET_VISIBILITY_NEWPOST_MODAL'
 export const SET_VISIBILITY_EDITPOST_MODAL = 'SET_VISIBILITY_EDITPOST_MODAL'
-export const SET_LOCATION= 'SET_LOCATION'
 export const REQUEST_SINGLE_POST = 'REQUEST_SINGLE_POST'
 export const RECEIVE_SINGLE_POST = 'RECEIVE_SINGLE_POST'
 
@@ -20,13 +19,6 @@ export function setVisibilityEditPostModal(open, data) {
     type: SET_VISIBILITY_EDITPOST_MODAL,
     open,
     post,
-  }
-}
-
-export function setLocation(location) {
-  return {
-    type: SET_LOCATION,
-    location,
   }
 }
 

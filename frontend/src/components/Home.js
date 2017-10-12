@@ -5,7 +5,7 @@ import PostList from './PostList'
 import AddButton from './AddButton'
 import NewPost from './NewPost'
 import EditPost from './EditPost'
-import { setLocation } from '../actions'
+import { setLocation } from '../actions/location'
 
 class Home extends Component {
 

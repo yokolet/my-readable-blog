@@ -8,7 +8,8 @@ import PostBody from './PostBody'
 import EditPost from './EditPost'
 import commentTitle from './CommentTitle'
 import CommentBody from './CommentBody'
-import { getSinglePost, setLocation } from '../actions'
+import { getSinglePost } from '../actions'
+import { setLocation } from '../actions/location'
 import { getAllComments, addComment, deleteComment,
           setVisibilityEditComment, voteComment } from '../actions/comments'
 

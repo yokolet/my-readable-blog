@@ -1,4 +1,4 @@
-import { SET_LOCATION } from '../actions'
+import { SET_LOCATION } from '../constants/actions'
 
 const initialState = {
   location: 'home',
