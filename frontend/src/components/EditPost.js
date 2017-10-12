@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Col, ControlLabel, Button, FormControl,
           FormGroup, Grid, Modal, Row } from 'react-bootstrap'
 import { editPost, deletePost } from '../actions/posts'
-import { setVisibilityEditPostModal } from '../actions'
+import { setVisibilityEditPostModal } from '../actions/modals'
 
 class EditPost extends Component {
   constructor(props) {

@@ -6,7 +6,7 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { FaHome, FaAngleDoubleUp, FaAngleDoubleDown } from 'react-icons/lib/fa'
 import { getAllCategories } from '../actions/categories'
 import { setSortBy } from '../actions/posts'
-import { setVisibilityNewPostModal } from '../actions'
+import { setVisibilityNewPostModal } from '../actions/modals'
 
 class Header extends Component {
 

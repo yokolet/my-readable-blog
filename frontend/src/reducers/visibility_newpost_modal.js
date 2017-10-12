@@ -1,4 +1,4 @@
-import { SET_VISIBILITY_NEWPOST_MODAL } from '../actions'
+import { SET_VISIBILITY_NEWPOST_MODAL } from '../constants/actions'
 
 const initialState = {
   open: false,

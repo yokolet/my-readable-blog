@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button  } from 'react-bootstrap'
 import FaPlus from 'react-icons/lib/fa/plus'
-import { setVisibilityNewPostModal } from '../actions'
+import { setVisibilityNewPostModal } from '../actions/modals'
 
 class AddButton extends Component {
   render() {
