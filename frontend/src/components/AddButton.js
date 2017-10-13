@@ -1,25 +1,23 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button  } from 'react-bootstrap'
 import FaPlus from 'react-icons/lib/fa/plus'
 import { setVisibilityNewPostModal } from '../actions/modals'
 
-class AddButton extends Component {
-  render() {
-    const { setModalOpen } = this.props
-    return (
-      <div className="new-post">
-        <Button className="btn btn-lg btn-info btn-circle"
-                onClick={e => {
-                  e.preventDefault()
-                  setModalOpen(true)
-                }}>
-          <FaPlus />
-        </Button>
-      </div>
-    )
-  }
+const AddButton = (props) => {
+  const { setModalOpen } = props
+  return (
+    <div className="new-post">
+      <Button className="btn btn-lg btn-info btn-circle"
+              onClick={e => {
+                e.preventDefault()
+                setModalOpen(true)
+              }}>
+        <FaPlus />
+      </Button>
+    </div>
+  )
 }
 
 AddButton.propTypes = {
