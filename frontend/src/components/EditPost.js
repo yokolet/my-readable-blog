@@ -16,7 +16,7 @@ class EditPost extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange (event) {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -25,17 +25,35 @@ class EditPost extends Component {
     })
   }
 
+  handleClick = (event, setEditModalOpen, option = null) => {
+    event.preventDefault()
+    if (option) {
+      option.func(option.params)
+    }
+    setEditModalOpen(false, {})
+    this.setState({
+      title: {onEdit: false, value: ''},
+      body: {onEdit: false, value: ''},
+    })
+  }
+
+  handleUpdate = ({update, post}) => {
+    let titleValue = this.state.title.onEdit
+    ? this.state.title.value
+    : post.title
+    let bodyValue = this.state.body.onEdit
+    ? this.state.body.value
+    : post.body
+    update(post.id, {title: titleValue, body: bodyValue})
+  }
+
   render() {
     const { isEditOpen, setEditModalOpen, update, deletePost, post } = this.props
     return (
       <Modal show={isEditOpen}
-        onHide={() => {
-          setEditModalOpen(false, {})
-          this.setState({
-            title: {onEdit: false, value: ''},
-            body: {onEdit: false, value: ''},
-          })
-        }}>
+        onHide={event => {
+              this.handleClick(event, setEditModalOpen)
+              }}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Post</Modal.Title>
           <div>
@@ -71,42 +89,34 @@ class EditPost extends Component {
           <Row className="edit-modal-footer">
             <Col xs={6} md={4}>
             <Button bsStyle="danger" className="edit-modal-button"
-              onClick={e => {
-                      e.preventDefault()
-                      deletePost(post.id)
-                      setEditModalOpen(false, {})
-                      this.setState({
-                        title: {onEdit: false, value: ''},
-                        body: {onEdit: false, value: ''},
-                      })
-            }}>Delete</Button>
+              onClick={event => {
+                      this.handleClick(
+                        event,
+                        setEditModalOpen,
+                        {
+                          func: deletePost,
+                          params: post.id,
+                        }
+                      )
+                      }}>Delete</Button>
             </Col>
             <Col xs={2} md={4}>
             <Button className="edit-modal-button"
-              onClick={e => {
-                      e.preventDefault()
-                      setEditModalOpen(false, {})
-                      this.setState({
-                        title: {onEdit: false, value: ''},
-                        body: {onEdit: false, value: ''},
-                      })
-            }}>Cancel</Button>
+              onClick={event => {
+                      this.handleClick(event, setEditModalOpen)
+                      }}>Cancel</Button>
             <Button bsStyle="primary" className="edit-modal-button"
               type="submit"
-              onClick={e => {
-                e.preventDefault()
-                let titleValue = this.state.title.onEdit ? this.state.title.value : post.title
-                let bodyValue = this.state.body.onEdit ? this.state.body.value : post.body
-                update(post.id, {title: titleValue, body: bodyValue})
-                setEditModalOpen(false, {})
-                this.setState({
-                  title: {onEdit: false, value: ''},
-                  body: {onEdit: false, value: ''},
-                })
-              }}
-              >
-              Update
-            </Button>
+              onClick={event => {
+                      this.handleClick(
+                        event,
+                        setEditModalOpen,
+                        {
+                          func: this.handleUpdate,
+                          params: { update, post },
+                        }
+                      )
+              }}>Update</Button>
             </Col>
           </Row>
         </Grid>
