@@ -31,7 +31,6 @@ class Footer extends Component {
 
 Footer.propTypes = {
   location: PropTypes.string.isRequired,
-  setLocation: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({currentLocation}) {
