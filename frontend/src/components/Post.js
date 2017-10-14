@@ -19,8 +19,67 @@ class Post extends Component {
     super(props);
     this.state = {
       post_id: props.match.params.id,
-      comment_author: '',
-      comment_body: '',
+      comment_author: { value: '', isValid: true },
+      comment_body: { value: '', isValid: true },
+    }
+  }
+
+  handleChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: {
+        value,
+        isValid: (value.length > 0 ? true : false)
+      }
+    })
+  }
+
+  handleClick = (event, option = null) => {
+    if (event) {
+      event.preventDefault()
+    }
+    let status = true
+    if (option) {
+      status = this.handleComment(option.func, option.param)
+    }
+    if (status) {
+      this.setState({
+        ...this.state,
+        comment_author: { value: '', isValid: true },
+        comment_body: { value: '', isValid: true },
+      })
+    }
+  }
+
+  handleComment = (newComment, parentId) => {
+    let data = {
+      comment_author: {
+        value: this.state.comment_author.value,
+        isValid: (this.state.comment_author.value.length > 0 ? true : false)
+      },
+      comment_body: {
+        value: this.state.comment_body.value,
+        isValid: (this.state.comment_body.value.length > 0 ? true : false)
+      },
+    }
+
+    if (data.comment_author.isValid &&
+      data.comment_body.isValid) {
+      let comment = {
+        author: data.comment_author.value,
+        body: data.comment_body.value,
+        parentId,
+      }
+      newComment(comment)
+      return true
+    } else {
+      this.setState({
+        ...data,
+      })
+      return false
     }
   }
 
@@ -90,34 +149,28 @@ class Post extends Component {
               <div className="comment-form-head">
                 Add New Comment
                 <form>
-                  <FormGroup controlId="newCommentAuthor">
+                  <FormGroup
+                    controlId="newCommentAuthor"
+                    validationState={this.state.comment_author.isValid ? null : "error"}>
                     <ControlLabel>Author</ControlLabel>
                     <FormControl
                       componentClass="input"
                       placeholder="Enter name"
-                      name="author"
-                      value={this.state.comment_author}
-                      onChange={e => {
-                        e.preventDefault();
-                        this.setState({
-                          comment_author: e.target.value,
-                        })
-                      }}
+                      name="comment_author"
+                      value={this.state.comment_author.value}
+                      onChange={this.handleChange}
                     />
                   </FormGroup>
-                  <FormGroup controlId="newCommentBody">
+                  <FormGroup
+                    controlId="newCommentBody"
+                    validationState={this.state.comment_body.isValid ? null : "error"}>
                     <ControlLabel>Body</ControlLabel>
                     <FormControl
                       componentClass="textarea"
                       placeholder="Enter comment"
-                      name="body"
-                      value={this.state.comment_body}
-                      onChange={e => {
-                        e.preventDefault();
-                        this.setState({
-                          comment_body: e.target.value,
-                        })
-                      }}
+                      name="comment_body"
+                      value={this.state.comment_body.value}
+                      onChange={this.handleChange}
                     />
                 </FormGroup>
                 </form>
@@ -126,19 +179,11 @@ class Post extends Component {
                   <Button className="comment-button"
                     bsStyle="primary"
                     type="submit"
-                    onClick={e => {
-                      e.preventDefault()
-                      newComment(this.state.comment_author,
-                                  this.state.comment_body,
-                                  this.state.post_id)
-                      this.setState({
-                        comment_author: '',
-                        comment_body: '',
-                      })
-                    }}
-                    >
-                    Create
-                  </Button>
+                    onClick={event => {
+                      this.handleClick(
+                        event,
+                        {func: newComment, param: this.state.post_id})
+                    }}>Create</Button>
                 </div>
               </div>
             </Panel>
@@ -190,8 +235,7 @@ function mapDispatchToProps (dispatch) {
     getPost: id => dispatch(getSinglePost(id)),
     allComments: postId => dispatch(getAllComments(postId)),
     setLocation: location => dispatch(setLocation(location)),
-    newComment: (author, body, parentId) => dispatch(
-      addComment({author, body, parentId})),
+    newComment: comment => dispatch(addComment(comment)),
     deleteComment: id => dispatch(deleteComment(id)),
     setEditCommentOpen: (open, id) => dispatch(setVisibilityEditComment(open, id)),
     voteComment: (id, option) => dispatch(voteComment(id, option)),
