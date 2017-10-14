@@ -26,7 +26,9 @@ class EditPost extends Component {
   }
 
   handleClick = (event, setEditModalOpen, option = null) => {
-    event.preventDefault()
+    if (event) {
+      event.preventDefault()
+    }
     if (option) {
       option.func(option.params)
     }
@@ -50,9 +52,10 @@ class EditPost extends Component {
   render() {
     const { isEditOpen, setEditModalOpen, update, deletePost, post } = this.props
     return (
-      <Modal show={isEditOpen}
-        onHide={event => {
-              this.handleClick(event, setEditModalOpen)
+      <Modal
+        show={isEditOpen}
+        onHide={() => {
+              this.handleClick(null, setEditModalOpen)
               }}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Post</Modal.Title>
