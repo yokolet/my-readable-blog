@@ -31,7 +31,7 @@ class CommentBody extends Component {
       comment_body =
         <form>
         <FormGroup controlId="editCommentBody">
-          <ControlLabel>Title</ControlLabel>
+          <ControlLabel>Body</ControlLabel>
           <FormControl
             componentClass="input"
             value={this.state.onEdit ? this.state.body : comment.body}

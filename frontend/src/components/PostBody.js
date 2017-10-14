@@ -5,34 +5,24 @@ import { Link } from 'react-router-dom'
 import { Panel, Button, Grid, Row, Col  } from 'react-bootstrap'
 import * as FA from 'react-icons/lib/fa'
 import postTitle from './PostTitle'
-import * as API from '../utils/api'
 import { votePost } from '../actions/posts'
+import { getAllComments } from '../actions/comments'
 import { setVisibilityEditPostModal } from '../actions/modals'
 
 class PostBody extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      comments: '',
-    }
-  }
 
   componentDidMount() {
-    API.fetchComments(this.props.post.id)
-      .then((comments) => {
-        this.setState(() => ({
-          comments
-      }))
-    })
+    this.props.allComments(this.props.post.id)
   }
 
   commentButton = (location, post, comments) => {
+    let commentSize = comments[post.id] ? comments[post.id].length : 0
     if (location === 'home' || location === 'category') {
       return (
         <Link to={`/${post.category}/${post.id}`}>
           <Button bsStyle="default">
             <FA.FaCommentO size={20}/>
-            <span className="post-comment">{comments ? comments.length : 0}</span>
+            <span className="post-comment">{commentSize}</span>
           </Button>
         </Link>
       )
@@ -42,12 +32,12 @@ class PostBody extends Component {
   }
 
   render() {
-    const { comments } = this.state
-    const { post, vote, setEditModalOpen, location } = this.props
+    const { post, vote, setEditModalOpen, location, comments } = this.props
 
     if (post.deleted) {
       return
     }
+
     return (
       <Panel header={postTitle(post, setEditModalOpen)}>
         <div className="post-body">
@@ -104,14 +94,19 @@ PostBody.propTypes = {
       voteScore: PropTypes.number.isRequired,
       deleted: PropTypes.bool.isRequired,
     }),
+    comments: PropTypes.object.isRequired,
     vote: PropTypes.func.isRequired,
     setEditModalOpen: PropTypes.func.isRequired,
     location: PropTypes.string.isRequired,
 }
 
-function mapStateToProps({visibilityEditPostModal, singlePost, currentLocation}) {
+function mapStateToProps({
+  visibilityEditPostModal,
+  singlePost,
+  currentLocation,
+  allComments}) {
   return {
-    comments: singlePost.comments,
+    comments: allComments.comments,
     isEditOpen: visibilityEditPostModal.open,
     location: currentLocation.location,
   }
@@ -119,6 +114,7 @@ function mapStateToProps({visibilityEditPostModal, singlePost, currentLocation})
 
 function mapDispatchToProps (dispatch) {
   return {
+    allComments: (postId) => dispatch(getAllComments(postId)),
     vote: (id, option) => dispatch(votePost(id, option)),
     setEditModalOpen: (open, data) => dispatch(setVisibilityEditPostModal(open, data))
   }

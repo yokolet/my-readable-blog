@@ -25,9 +25,19 @@ class Post extends Component {
   }
 
   componentDidMount() {
-    this.props.getSinglePost(this.state.post_id)
-    this.props.getAllComments(this.state.post_id)
+    this.props.getPost(this.state.post_id)
+    this.props.allComments(this.state.post_id)
     this.props.setLocation('post')
+  }
+
+  commentInfo = (post, comments) => {
+    let size = comments[post.id] ? comments[post.id].length : 0
+    let unit = size < 2 ? "Comment" : "Comments"
+    return (
+      <div className="comments-head">
+        {size} {unit}
+      </div>
+    )
   }
 
   render() {
@@ -45,9 +55,11 @@ class Post extends Component {
           <EditPost />
           <div className="comments">
             <div className="comments-head">
-              {comments.length} Comments
+              {this.commentInfo(post, comments)}
             </div>
-            {comments && comments.map((comment) => (
+            {comments &&
+              comments[this.state.post_id] &&
+              comments[this.state.post_id].map((comment) => (
               <Panel key={comment.id}>
                 {commentTitle(comment, setEditCommentOpen, deleteComment)}
                 <CommentBody comment={ comment }/>
@@ -148,11 +160,11 @@ Post.propTypes = {
       voteScore: PropTypes.number,
       deleted: PropTypes.bool,
     }),
-    comments: PropTypes.array,
+    comments: PropTypes.object.isRequired,
     location: PropTypes.string.isRequired,
     isCommentEditOpen: PropTypes.bool.isRequired,
-    getSinglePost: PropTypes.func.isRequired,
-    getAllComments: PropTypes.func.isRequired,
+    getPost: PropTypes.func.isRequired,
+    allComments: PropTypes.func.isRequired,
     setLocation: PropTypes.func.isRequired,
     newComment: PropTypes.func.isRequired,
     deleteComment: PropTypes.func.isRequired,
@@ -160,10 +172,14 @@ Post.propTypes = {
     voteComment: PropTypes.func.isRequired,
 }
 
-function mapStateToProps({ singlePost, currentLocation, visibilityEditComment }) {
+function mapStateToProps({
+  singlePost,
+  allComments,
+  currentLocation,
+  visibilityEditComment }) {
   return {
     post: singlePost.post,
-    comments: singlePost.comments,
+    comments: allComments.comments,
     location: currentLocation.location,
     isCommentEditOpen: visibilityEditComment.open,
   }
@@ -171,8 +187,8 @@ function mapStateToProps({ singlePost, currentLocation, visibilityEditComment })
 
 function mapDispatchToProps (dispatch) {
   return {
-    getSinglePost: id => dispatch(getSinglePost(id)),
-    getAllComments: id => dispatch(getAllComments(id)),
+    getPost: id => dispatch(getSinglePost(id)),
+    allComments: postId => dispatch(getAllComments(postId)),
     setLocation: location => dispatch(setLocation(location)),
     newComment: (author, body, parentId) => dispatch(
       addComment({author, body, parentId})),

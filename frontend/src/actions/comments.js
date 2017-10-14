@@ -15,9 +15,10 @@ function requestComments() {
   }
 }
 
-function receiveComments(json) {
+function receiveComments(json, postId) {
   return {
     type: RECEIVE_COMMENTS,
+    parentId: postId,
     comments: json,
   }
 }
@@ -26,7 +27,7 @@ export function getAllComments(postId) {
   return dispatch => {
     dispatch(requestComments())
     return API.fetchComments(postId)
-      .then(json => dispatch(receiveComments(json)))
+      .then(json => dispatch(receiveComments(json, postId)))
   }
 }
 
