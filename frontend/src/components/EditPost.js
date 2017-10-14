@@ -21,7 +21,10 @@ class EditPost extends Component {
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: { value, onEdit: true}
+      [name]: {
+        value,
+        onEdit: (value.length > 0 ? true : false),
+      }
     })
   }
 
