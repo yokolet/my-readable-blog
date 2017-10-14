@@ -9,22 +9,49 @@ class NewPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: '',
-      body: '',
-      author: '',
-      category: '',
+      title: { value: '', isValid: false },
+      body: { value: '', isValid: false },
+      author: { value: '', isValid: false },
+      category: { value: '', isValid: false },
     }
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange (event) {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: {
+        ...[name],
+        value,
+      }
     })
+  }
+
+  handleClick = (event, setModalOpen, addPost = null) => {
+    event.preventDefault()
+    if (addPost) {
+      this.handlePost(addPost)
+    }
+    setModalOpen(false)
+    this.setState({
+      title: { value: '', isValid: false },
+      body: { value: '', isValid: false },
+      author: { value: '', isValid: false },
+      category: { value: '', isvalid: false },
+    })
+  }
+
+  handlePost = (addPost) => {
+    let post = {
+      title: this.state.title.value,
+      body: this.state.body.value,
+      author: this.state.author.value,
+      category: this.state.category.value,
+    }
+    addPost(post)
   }
 
   render() {
@@ -79,21 +106,15 @@ class NewPost extends Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={e => {
-                    e.preventDefault()
-                    setModalOpen(false)
-          }}>Cancel</Button>
+          <Button onClick={event => {
+                          this.handleClick(event, setModalOpen)
+                          }}>Cancel</Button>
           <Button
             bsStyle="primary"
             type="submit"
-            onClick={e => {
-              e.preventDefault()
-              setModalOpen(false)
-              addPost(this.state)
-            }}
-            >
-            Create
-          </Button>
+            onClick={event => {
+                    this.handleClick(event, setModalOpen, addPost)
+                    }}>Create</Button>
         </Modal.Footer>
       </Modal>
     )
