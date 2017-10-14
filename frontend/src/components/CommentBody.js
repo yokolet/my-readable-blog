@@ -11,6 +11,7 @@ class CommentBody extends Component {
     this.state = {
       onEdit: false,
       body: '',
+      isValid: true,
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -19,7 +20,40 @@ class CommentBody extends Component {
     this.setState({
       onEdit: true,
       body: event.target.value,
+      isValid: (event.target.value.length > 0 ? true : false),
     })
+  }
+
+  handleClick = (event, setEditCommentOpen, option = null) => {
+    if (event) {
+      event.preventDefault()
+    }
+    let status = true
+    if (option) {
+      status = this.handleComment(option.func, option.param)
+    }
+    if (status) {
+      this.setState({
+        onEdit: false,
+        body: '',
+        isValid: true,
+      })
+      setEditCommentOpen(false)
+    }
+  }
+
+  handleComment = (updateComment, {commentId, body}) => {
+    let valid = body.length > 0 ? true : false
+    if (valid) {
+      updateComment(commentId, {body})
+      return true
+    } else {
+      this.setState({
+        ...this.state,
+        isValid: false,
+      })
+      return false
+    }
   }
 
   render() {
@@ -30,7 +64,9 @@ class CommentBody extends Component {
     if (isCommentEditOpen && commentEditId === comment.id) {
       comment_body =
         <form>
-        <FormGroup controlId="editCommentBody">
+        <FormGroup
+          controlId="editCommentBody"
+          validationState={this.state.isValid ? null : "error"}>
           <ControlLabel>Body</ControlLabel>
           <FormControl
             componentClass="input"
@@ -42,29 +78,20 @@ class CommentBody extends Component {
       edit_buttons =
         <div>
           <Button className="edit-modal-button"
-            onClick={e => {
-                    e.preventDefault()
-                    setEditCommentOpen(false)
-                    this.setState({
-                      onEdit: false,
-                      body: ''
-                    })
-          }}>Cancel</Button>
+            onClick={event => {
+              this.handleClick(event, setEditCommentOpen)
+            }}>Cancel</Button>
           <Button bsStyle="primary" className="edit-modal-button"
             type="submit"
-            onClick={e => {
-              e.preventDefault()
+            onClick={event => {
               let bodyValue = this.state.onEdit ? this.state.body : comment.body
-              updateComment(comment.id, {body: bodyValue})
-              setEditCommentOpen(false)
-              this.setState({
-                onEdit: false,
-                body: ''
-              })
-            }}
-            >
-            Update
-          </Button>
+              this.handleClick(
+                event,
+                setEditCommentOpen,
+                {func: updateComment,
+                param: {commentId: comment.id, body: bodyValue}}
+              )
+            }}>Update</Button>
         </div>
     } else {
       comment_body = <div>{comment.body}</div>
