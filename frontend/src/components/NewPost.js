@@ -9,10 +9,10 @@ class NewPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: { value: '', isValid: false },
-      body: { value: '', isValid: false },
-      author: { value: '', isValid: false },
-      category: { value: '', isValid: false },
+      title: { value: '', isValid: true },
+      body: { value: '', isValid: true },
+      author: { value: '', isValid: true },
+      category: { value: '', isValid: true },
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -24,47 +24,86 @@ class NewPost extends Component {
 
     this.setState({
       [name]: {
-        ...[name],
         value,
+        isValid: (value.length > 0 ? true : false)
       }
     })
   }
 
   handleClick = (event, setModalOpen, addPost = null) => {
-    event.preventDefault()
-    if (addPost) {
-      this.handlePost(addPost)
+    if (event) {
+      event.preventDefault()
     }
-    setModalOpen(false)
-    this.setState({
-      title: { value: '', isValid: false },
-      body: { value: '', isValid: false },
-      author: { value: '', isValid: false },
-      category: { value: '', isvalid: false },
-    })
+    let status = true
+    if (addPost) {
+      status = this.handlePost(addPost)
+    }
+    if (status) {
+      setModalOpen(false)
+      this.setState({
+        title: { value: '', isValid: true },
+        body: { value: '', isValid: true },
+        author: { value: '', isValid: true },
+        category: { value: '', isValid: true },
+      })
+    }
   }
 
   handlePost = (addPost) => {
-    let post = {
-      title: this.state.title.value,
-      body: this.state.body.value,
-      author: this.state.author.value,
-      category: this.state.category.value,
+    let data = {
+      title: {
+        value: this.state.title.value,
+        isValid: (this.state.title.value.length > 0 ? true : false)
+      },
+      body: {
+        value: this.state.body.value,
+        isValid: (this.state.body.value.length > 0 ? true : false)
+      },
+      author: {
+        value: this.state.author.value,
+        isValid: (this.state.author.value.length > 0 ? true : false)
+      },
+      category: {
+        value: this.state.category.value,
+        isValid: (this.state.category.value.length > 0 ? true : false)
+      },
     }
-    addPost(post)
+
+    if (data.title.isValid &&
+      data.body.isValid &&
+      data.author.isValid &&
+      data.category.isValid) {
+      let post = {
+        title: data.title.value,
+        body: data.body.value,
+        author: data.author.value,
+        category: data.category.value,
+      }
+      addPost(post)
+      return true
+    } else {
+      this.setState({
+        ...data,
+      })
+      return false
+    }
   }
 
   render() {
     const { categories, isOpen, setModalOpen, addPost} = this.props
 
     return (
-      <Modal show={isOpen} onHide={() => (setModalOpen(false))}>
+      <Modal
+        show={isOpen}
+        onHide={() => {this.handleClick(null, setModalOpen)}}>
         <Modal.Header closeButton>
           <Modal.Title>New Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
-            <FormGroup controlId="newPostTitle">
+            <FormGroup
+              controlId="newPostTitle"
+              validationState={this.state.title.isValid ? null : "error"}>
               <ControlLabel>Title</ControlLabel>
               <FormControl
                 componentClass="input"
@@ -73,7 +112,9 @@ class NewPost extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
-            <FormGroup controlId="newPostBody">
+            <FormGroup
+              controlId="newPostBody"
+              validationState={this.state.body.isValid ? null : "error"}>
               <ControlLabel>Body</ControlLabel>
               <FormControl
                 componentClass="textarea"
@@ -82,7 +123,9 @@ class NewPost extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
-            <FormGroup controlId="newPostAuthor">
+            <FormGroup
+              controlId="newPostAuthor"
+              validationState={this.state.author.isValid ? null : "error"}>
               <ControlLabel>Author</ControlLabel>
               <FormControl
                 componentClass="input"
@@ -91,7 +134,9 @@ class NewPost extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
-            <FormGroup controlId="newPostCategory" key="category">
+            <FormGroup
+              controlId="newPostCategory" key="category"
+              validationState={this.state.category.isValid ? null : "error"}>
               <ControlLabel>Category</ControlLabel>
               <FormControl
                 componentClass="select"
