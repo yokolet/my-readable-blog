@@ -10,8 +10,8 @@ class EditPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: {onEdit: false, value: ''},
-      body: {onEdit: false, value: ''},
+      title: {onEdit: false, value: '', isValid: true},
+      body: {onEdit: false, value: '', isValid: true},
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -23,7 +23,8 @@ class EditPost extends Component {
     this.setState({
       [name]: {
         value,
-        onEdit: (value.length > 0 ? true : false),
+        onEdit: true,
+        isValid: (value.length > 0 ? true : false)
       }
     })
   }
@@ -32,14 +33,17 @@ class EditPost extends Component {
     if (event) {
       event.preventDefault()
     }
+    let status = true
     if (option) {
-      option.func(option.params)
+      status = option.func(option.params)
     }
-    setEditModalOpen(false, {})
-    this.setState({
-      title: {onEdit: false, value: ''},
-      body: {onEdit: false, value: ''},
-    })
+    if (status) {
+      setEditModalOpen(false, {})
+      this.setState({
+        title: {onEdit: false, value: '', isValid: true},
+        body: {onEdit: false, value: '', isValid: true},
+      })
+    }
   }
 
   handleUpdate = ({update, post}) => {
@@ -49,7 +53,29 @@ class EditPost extends Component {
     let bodyValue = this.state.body.onEdit
     ? this.state.body.value
     : post.body
-    update(post.id, {title: titleValue, body: bodyValue})
+
+    let data = {
+      title: {
+        onEdit: this.state.title.onEdit,
+        value: titleValue,
+        isValid: (titleValue.length > 0 ? true : false),
+      },
+      body: {
+        onEdit: this.state.body.onEdit,
+        value: bodyValue,
+        isValid: (bodyValue.length > 0 ? true : false),
+      }
+    }
+
+    if (data.title.isValid && data.body.isValid) {
+      update(post.id, {title: titleValue, body: bodyValue})
+      return true
+    } else {
+      this.setState({
+        ...data,
+      })
+      return false
+    }
   }
 
   render() {
@@ -70,7 +96,9 @@ class EditPost extends Component {
         </Modal.Header>
         <Modal.Body>
           <form>
-            <FormGroup controlId="editPostTitle">
+            <FormGroup
+              controlId="editPostTitle"
+              validationState={this.state.title.isValid ? null : "error"}>
               <ControlLabel>Title</ControlLabel>
               <FormControl
                 componentClass="input"
@@ -79,7 +107,9 @@ class EditPost extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
-            <FormGroup controlId="editPostBody">
+            <FormGroup
+              controlId="editPostBody"
+              validationState={this.state.body.isValid ? null : "error"}>
               <ControlLabel>Body</ControlLabel>
               <FormControl
                 componentClass="textarea"
