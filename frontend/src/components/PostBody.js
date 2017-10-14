@@ -45,6 +45,9 @@ class PostBody extends Component {
     const { comments } = this.state
     const { post, vote, setEditModalOpen, location } = this.props
 
+    if (post.deleted) {
+      return
+    }
     return (
       <Panel header={postTitle(post, setEditModalOpen)}>
         <div className="post-body">

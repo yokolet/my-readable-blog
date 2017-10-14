@@ -1,6 +1,7 @@
 import { REQUEST_SINGLE_POST,
         RECEIVE_SINGLE_POST,
         EDIT_POST,
+        DELETE_POST,
         CHANGE_VOTE_POST,
         REQUEST_COMMENTS,
         RECEIVE_COMMENTS,
@@ -28,7 +29,7 @@ export default function singlePost(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        post: action.post,
+        post: (action.post.id ? action.post : {deleted: true}),
       }
 
     case EDIT_POST:
@@ -37,6 +38,15 @@ export default function singlePost(state = initialState, action) {
         post: {...state.post,
               title: action.result.title,
               body: action.result.body}
+      }
+
+    case DELETE_POST:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          deleted: true,
+        }
       }
 
     case CHANGE_VOTE_POST:
@@ -56,7 +66,9 @@ export default function singlePost(state = initialState, action) {
       return {
         ...state,
         isCommentsFetching: false,
-        comments: action.comments,
+        comments: action.comments.filter((comment) => (
+          !comment.deleted && !comment.parentDeleted
+        )),
       }
 
     case ADD_COMMENT:

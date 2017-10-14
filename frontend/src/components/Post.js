@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { ControlLabel, FormControl, FormGroup,
@@ -32,6 +33,10 @@ class Post extends Component {
   render() {
     const { post, comments, newComment, deleteComment,
             setEditCommentOpen, voteComment } = this.props
+
+    if (post.deleted) {
+      return <Redirect to='/' />
+    }
 
     return (
       <Jumbotron className="main">
